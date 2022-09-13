@@ -19,18 +19,18 @@ router.get('/logout',logout,(req,res)=>{
     console.log("the user has logged out")
 })
 
-router.post('/post',post)
-router.delete('/postDelete',likesDelete,commentsDelete,postDelete)
-router.put('/postUpdate',postUpdate)
-router.get('/getPosts',getPosts)
-router.get('/getSinglePost/:id',getSinglePost)
-router.get('/getWholePost/:id',getPostComments,getCommentLikes,getSinglePost)
+router.post('/post',authenticateToken,post)
+router.delete('/postDelete',authenticateToken,likesDelete,commentsDelete,postDelete)
+router.put('/postUpdate',authenticateToken,postUpdate)
+router.get('/getPosts',authenticateToken,getPosts)
+router.get('/getSinglePost/:id',authenticateToken,getSinglePost)
+router.get('/getWholePost/:id',authenticateToken,getPostComments,getCommentLikes,getSinglePost)
 
-router.post('/comment',comment)
-router.post('/commentDelete',commentLikesDelete,singleCommentDelete)
+router.post('/comment',authenticateToken,comment)
+router.post('/commentDelete',authenticateToken,commentLikesDelete,singleCommentDelete)
 
-router.post('/like',liker)
-router.delete('/likeDelete',singleLikeDelete)
+router.post('/like',authenticateToken,liker)
+router.delete('/likeDelete',authenticateToken,singleLikeDelete)
 
 router.post('/dummy',authenticateToken,(req,res)=>{
    res.send(req.user)
