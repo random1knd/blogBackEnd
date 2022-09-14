@@ -50,9 +50,9 @@ async function login(req,res,next){
     if (value === null){
         return res.send("username not found")
     }
-    const password =await userSchema.findOne({user:user})
-    
-    if(!await bcrypt.compare(req.body.password,password)){
+    const password = await userSchema.findOne({user:user})
+   
+    if(!await bcrypt.compare(req.body.password,password.password)){
         return res.send("password does not match")
     }
     const username = {name:user}
@@ -73,7 +73,7 @@ async function login(req,res,next){
 
 
 function generateAccessToken(user){
-    return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'30m'})
+    return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'60m'})
 }
 async function createNewToken(req,res,next){
     
@@ -92,24 +92,6 @@ async function createNewToken(req,res,next){
 
 }
 
-async function authenticateToken(req,res,next){
-    const authHeader = req.headers['authorization']
-    
-    
-    
-   const token = authHeader && authHeader.split(' ')[1]
-    if(token == null) return res.send("token not found")
-   
-   jwt.verify(token,process.env.ACCESS_TOKEN,(err,user)=>{
-    if (err)
-    {
-    return res.send("not authentic")
-    }
-    req.body.user = user
-    next()
-})
-    
-}
 
 
 
@@ -124,4 +106,4 @@ async function logout(req,res,next){
     next()
 }
 
-module.exports = {register , login, logout , authenticateToken , createNewToken}
+module.exports = {register , login, logout   , createNewToken}

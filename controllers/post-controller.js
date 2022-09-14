@@ -31,13 +31,14 @@ async function post(req,res,next){
     
     console.log("this is the middle ware for the blog post ")
     res.send("new post has been created")
+    next()
 } 
 
 
 
 
 async function postDelete(req,res,next){
-   
+   console.log("lets see if this is working")
     try{
 
         if(req.body.blogId.length !=24){
