@@ -5,6 +5,9 @@ const blogSchema = require('../schema/blogSchema')
 async function liker(req,res,next){
 
     try{
+        if(!req.body.object){
+            return res.status(400).send("invalid body")
+        }
     const findLike = await likeSchema.findOne({likedBy:req.body.user.name,object:req.body.object})
     if(findLike===null){
         const data = {
@@ -13,10 +16,10 @@ async function liker(req,res,next){
         }
         const liker = new likeSchema(data)
         await liker.save()
-        return res.send("liked")
+        return res.status(201).send("liked")
     }else{
         await likeSchema.deleteOne({likedBy:req.body.user.name,object:req.body.object})
-        return res.send("like deleted")
+        return res.status(200).send("like deleted")
     }
 }
 catch(err){
@@ -26,7 +29,7 @@ catch(err){
 }
 
 async function likesDelete(req,res,next){
-    if(req.body.blogId >=24){
+    if(!req.body.blogId || req.body.blogId >=24){
         return res.status(400).send("Invalid request")
     }
     
@@ -55,6 +58,9 @@ async function likesDelete(req,res,next){
 
 async function commentLikesDelete(req,res,next){
     try{
+        if(!req.body.commentId){
+            return res.status(400).send("Invalid request body")
+        }
         await likeSchema.deleteMany({object:req.body.commentId})
     }catch(err){
         console.log("error comment likes delete")
@@ -63,15 +69,18 @@ async function commentLikesDelete(req,res,next){
 
 async function likes(req,res,next){
     try{
+        if(!req.params.commentId){
+            return res.status(400).send("Invalid request body")
+        }
         if(req.pramas.commentId.length != 24){
-            res.send("comment object not found")
+            res.status(400).send("comment object not found")
         }
         const values =await likeSchema.findMany({object:req.params.commentsId})
         let count=0
         values.forEach(values=>{
             count++
         }) 
-        return res.send(count)
+        return res.status(200).send(count)
 
     }catch(err){
         console.log()
