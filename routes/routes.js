@@ -24,13 +24,14 @@ router.put('/postUpdate',authenticateToken,postUpdate)
 router.get('/getPosts',getPosts)
 router.get('/getSinglePost/:id',authenticateToken,getSinglePost)
 
-router.get('comments',comments)
+router.post('/comments',comments)
 router.post('/comment',authenticateToken,comment)
 router.delete('/commentDelete',authenticateToken,commentDelete,commentLikesDelete)
 router.put('/commentUpdate',authenticateToken,commentUpdate)
 
+
 router.post('/like',authenticateToken,liker)
-router.get('/likes',likes)
+router.post('/likes',likes)
 
 router.post('/notifications',authenticateToken,notified)
 

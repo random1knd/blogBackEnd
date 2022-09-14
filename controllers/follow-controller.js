@@ -35,7 +35,8 @@ async function notification(req,res,next){
 }
 //Section of code to send notifications
 async function notified(req,res,next){
-    console.log("let's see if this works")
+   // console.log("let's see if this works")
+   try{
     const notifications =await notificationSchema.find({updateFor:req.body.user.name})
     if(notifications == []){
         return res.status(200).send("not notifications here")
@@ -43,6 +44,10 @@ async function notified(req,res,next){
     
     res.status(200).send(notifications)
     await notificationSchema.deleteMany({updateFor:req.body.user.name})
+}catch(err){
+    console.log(err)
+    return res.status(403).send("something went wrong")
+}
 }
 
 module.exports = {follower,notification , notified}
