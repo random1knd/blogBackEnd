@@ -3,6 +3,7 @@ const userSchema = require('../schema/userSchema')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const tokenSchema = require('../schema/tokenSchema')
+const {secretKeySchema} = require('../schema/secretKeysSchema')
 async function register(req,res,next){
     try{
     const details = {
@@ -35,7 +36,10 @@ async function login(req,res,next){
         return res.send("password does not match")
     }
     const username = {name:user}
+    
+
     const accessToken = generateAccessToken(username)
+
     const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN)
     
     const token  = new tokenSchema({token:refreshToken})
@@ -49,15 +53,16 @@ async function login(req,res,next){
 
 
 function generateAccessToken(user){
-    return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'20s'})
+    return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'30m'})
 }
 async function createNewToken(req,res,next){
     
     const refreshToken = req.body.token
     if(refreshToken == null) return res.send("not found")
     if(await tokenSchema.find({token:refreshToken}) == []){
-        return res("not found")
+        return res.send("not found")
     }
+    
     jwt.verify(refreshToken,process.env.REFRESH_TOKEN,(err,user)=>{
         if (err) return res.send("not authentic token")
         const newAccessToken = generateAccessToken({name:user.name})
@@ -80,7 +85,7 @@ async function authenticateToken(req,res,next){
     {
     return res.send("not authentic")
     }
-    req.user = user
+    req.body.user = user
     next()
 })
     

@@ -3,7 +3,7 @@ const commentSchema = require('../schema/commentSchema')
 async function comment(req,res,next){
     const data = {
         blogId:req.body.blogId,
-        madeBy:req.body.madeBy,
+        madeBy:req.body.user.name,
         comment:req.body.comment,
         
     }
@@ -18,40 +18,47 @@ async function comment(req,res,next){
     next()
 }
 
-async function commentsDelete(req,res,next){
-    try{
-        const deleteComments = await commentSchema.deleteMany({blogId:req.body.blogId})
+async function commentDelete(req,res,next){
+    console.log("this is comment deleter")
+    if(req.body.commentId.length != 24){
+        return res.send("comment not found")
+    }
+    
+    const comment =await commentSchema.findOne({_id:req.body.commentId})
+    if(comment ===null){
+        return res.send("comment not found")
+
 
     }
-    catch(err){
-        console.log("error occured while deleting the comments")
+    if(comment.madeBy != req.body.user.name){
+        return res.send("not authorized")
     }
-
-
-
-    next()
-}
-
-async function singleCommentDelete(req,res,next){
-    try{
-        await commentSchema.deleteOne({_id:req.body.commentId})
-    }
-    catch(err){
-        console.log("failed to delete individual comment")
-    }
+    await commentSchema.deleteOne({_id:req.body.commentId})
+    return res.send("comment successfully deleted")
 
 }
 
-async function getPostComments(req,res,next){
-    try{
-        const comments = await commentSchema.find()
-        console.log(comments)
-        //res.body.comments = {comments}
-        
+async function commentUpdate(req,res,next){
+    console.log("this is comment updater")
+    if(req.body.commentId.length != 24){
+        return res.send("comment not found")
     }
-    catch(err){
-        console.log("something went wrong")
+    
+    const comment =await commentSchema.findOne({_id:req.body.commentId})
+    if(comment ===null){
+        return res.send("comment not found")
+
+
     }
-next()
+    if(comment.madeBy != req.body.user.name){
+        return res.send("not authorized")
+    }
+    const commentUpdate = await commentSchema.findOne({_id:req.body.commentId})
+    commentUpdate.comment = req.body.comment
+    await commentUpdate.save()
+    
+    return res.send("comment successfully updated")
 }
-module.exports = {comment, commentsDelete ,singleCommentDelete ,getPostComments}
+
+
+module.exports = {comment , commentDelete , commentUpdate}

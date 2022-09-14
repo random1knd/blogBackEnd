@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const {register,login, logout, authenticateToken, createNewToken} = require('../controllers/user-controller')
 const {post, postDelete , postUpdate ,getPosts, getSinglePost} = require('../controllers/post-controller')
-const {comment,commentsDelete,singleCommentDelete,getPostComments } = require('../controllers/comment-controller.js')
-const {liker , likesDelete ,commentLikesDelete, singleLikeDelete ,getCommentLikes} = require('../controllers/like-controller')
+const {comment ,commentDelete , commentUpdate } = require('../controllers/comment-controller.js')
+const {liker} = require('../controllers/like-controller')
 
 router.post('/register',register)
 
@@ -20,20 +20,21 @@ router.get('/logout',logout,(req,res)=>{
 })
 
 router.post('/post',authenticateToken,post)
-router.delete('/postDelete',authenticateToken,likesDelete,commentsDelete,postDelete)
+router.delete('/postDelete',authenticateToken,postDelete)
 router.put('/postUpdate',authenticateToken,postUpdate)
 router.get('/getPosts',authenticateToken,getPosts)
 router.get('/getSinglePost/:id',authenticateToken,getSinglePost)
-router.get('/getWholePost/:id',authenticateToken,getPostComments,getCommentLikes,getSinglePost)
+router.get('/getWholePost/:id',authenticateToken,getSinglePost)
 
 router.post('/comment',authenticateToken,comment)
-router.post('/commentDelete',authenticateToken,commentLikesDelete,singleCommentDelete)
+router.delete('/commentDelete',authenticateToken,commentDelete)
+router.put('/commentUpdate',authenticateToken,commentUpdate)
 
 router.post('/like',authenticateToken,liker)
-router.delete('/likeDelete',authenticateToken,singleLikeDelete)
+
 
 router.post('/dummy',authenticateToken,(req,res)=>{
-   res.send(req.user)
+   res.send(req.body.user.name)
 })
 
 router.post('/token',createNewToken)

@@ -5,7 +5,7 @@ const commentsDelete  = require('../controllers/comment-controller')
 async function post(req,res,next){
     
     const data = {
-        createdBy:req.body.createdBy,
+        createdBy:req.body.user.name,
         title:req.body.title,
         description:req.body.description,
         blogData:req.body.blogData
@@ -22,37 +22,67 @@ async function post(req,res,next){
 
 
 async function postDelete(req,res,next){
-    console.log("lets see if this working")
+   
     try{
 
+        if(req.body.blogId.length !=24){
+            return res.send("post not found")
+        }
+        const postCreator = await blog.findOne({_id:req.body.blogId})
+        if(postCreator == null){
+            return res.send("post not found")
+        }
+        console.log(postCreator.createdBy)
+        console.log(req.body.user.name)
+        if(postCreator.createdBy != req.body.user.name)
+        {
+            return res.send("not authorized")
+
+
+        }
         
-        //const blogDelete = await blog.deleteOne({_id:req.body.blogId})
         
-        
-        console.log('succesfully deleted')
+        await blog.deleteOne({_id:req.body.blogId})
+        return res.send("succefully deleted the post")
+
     }
     catch(err){
         console.log(err)
     }
     
-    res.send('data')
+    //res.send('data')
     //res.send("this deltes post")
     next()
 }
 
 async function postUpdate(req,res,next){
-    console.log("let's see if this is working")
+    console.log("let's see if this is working postUpdate")
     try{
-        const post =await blog.findById({_id:req.body.postId})
-        post.description = req.body.description
+        if(req.body.postId.length != 24){
+            return res.send("not found")
+        }
+        const post = await blog.findOne({_id:req.body.postId})
+        
+        if(post == null){
+            return res.send("post not found")
+        }
+        if(post.createdBy != req.body.user.name){
+            return res.send("not authorized")
+        }
+        
+
         post.blogData = req.body.blogData
+        post.title = req.body.title
+        post.description = req.body.description
+
         post.save()
         console.log(post)
+        return res.send("post updated successfully")
+    }catch(err){
+        console.log(err)
     }
-    catch(err){
-
-    }
-    res.send("this is working")
+    
+   
     next()
 }
 
