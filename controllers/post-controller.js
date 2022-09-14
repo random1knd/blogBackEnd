@@ -4,11 +4,26 @@ const commentsDelete  = require('../controllers/comment-controller')
 
 async function post(req,res,next){
     
+    const {title,description,blogData}  =req.body
+    if(!title){
+        return res.send("title is required")
+    }
+    if(!description){
+        return res.send("description is required")
+    }
+    if(!blogData){
+        return res.send("post information is required")
+    }
+
+    if(title.length > 200 || description.length > 300 || blogData.length > 2000){
+        return res.send("make sure title - 200 words, description - 300 words ,post - 2000 words")
+    }
+
     const data = {
         createdBy:req.body.user.name,
-        title:req.body.title,
-        description:req.body.description,
-        blogData:req.body.blogData
+        title:title,
+        description:description,
+        blogData:blogData
     }
     
     const backend = new blog(data)
@@ -70,10 +85,21 @@ async function postUpdate(req,res,next){
             return res.send("not authorized")
         }
         
+        const {title,blogData,description} = req.body
 
-        post.blogData = req.body.blogData
-        post.title = req.body.title
-        post.description = req.body.description
+        
+      
+    
+        if(title.length > 200 || description.length > 300 || blogData.length > 2000){
+            return res.send("make sure title - 200 words, description - 300 words ,post - 2000 words")
+        }
+    
+
+
+
+        post.blogData = blogData
+        post.title = title
+        post.description = description
 
         post.save()
         console.log(post)

@@ -15,16 +15,14 @@ router.post('/login',login,(req,res)=>{
 })
 
 
-router.get('/logout',logout,(req,res)=>{
-    console.log("the user has logged out")
-})
+router.post('/logout',authenticateToken,logout)
 
 router.post('/post',authenticateToken,post)
 router.delete('/postDelete',authenticateToken,postDelete)
 router.put('/postUpdate',authenticateToken,postUpdate)
-router.get('/getPosts',authenticateToken,getPosts)
+router.get('/getPosts',getPosts)
 router.get('/getSinglePost/:id',authenticateToken,getSinglePost)
-router.get('/getWholePost/:id',authenticateToken,getSinglePost)
+
 
 router.post('/comment',authenticateToken,comment)
 router.delete('/commentDelete',authenticateToken,commentDelete)

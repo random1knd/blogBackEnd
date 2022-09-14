@@ -6,33 +6,50 @@ const tokenSchema = require('../schema/tokenSchema')
 const {secretKeySchema} = require('../schema/secretKeysSchema')
 async function register(req,res,next){
     try{
-    const details = {
-        user:req.body.user,
-        password:await bcrypt.hash(req.body.password,10),
-        description:req.body.description,
-        email:req.body.email
+    const { user, password,description,email} = req.body
+    if(!user){
+        return res.send("username is required")
     }
-    const user = new userSchema(details)
-    await user.save()
+    if(!password || password.legnt < 7){
+        return res.send("password is required and with the right length")
+    }
+    if(!description){
+        return res.send("description is required")
+    }
+    if(!email){
+        return res.send("email is required")
+    }
+
+    const details = {
+        user:user,
+        password:await bcrypt.hash(password,10),
+        description:description,
+        email:email
+    }
+    const userSave = new userSchema(details)
+    await userSave.save()
 }catch(err){
-    return res.send("user could not be created try changing the user name")
+    console.log(err)
+    return res.send("user could not be created try changing the user name and make sure your email id is proper")
 }
-res.send("user has been created")
-    next()
+return res.send("user has been created")
 
 }
 
 async function login(req,res,next){
+    if(!req.body.user || !req.body.password){
+        return res.send("both username and password are required for login")
+    }
     const user = req.body.user
    try{
-    const value =  await userSchema.find({user:user})
+    const value =  await userSchema.findOne({user:user})
     
-    if (value.length == 0){
+    if (value === null){
         return res.send("username not found")
     }
-    const password =await userSchema.find({user:user})
-    console.log(password[0].password)
-    if(!await bcrypt.compare(req.body.password,password[0].password)){
+    const password =await userSchema.findOne({user:user})
+    
+    if(!await bcrypt.compare(req.body.password,password)){
         return res.send("password does not match")
     }
     const username = {name:user}
@@ -46,7 +63,7 @@ async function login(req,res,next){
     await token.save()
     res.json({accessToken:accessToken,refreshToken:refreshToken})
 }catch(err){
-
+    console.log(err)
 }
     next()
 }
@@ -96,9 +113,11 @@ async function authenticateToken(req,res,next){
 
 
 
-function logout(req,res,next){
-    console.log("the user has logged out")
-    res.send("the user has logged out the middle ware")
+async function logout(req,res,next){
+    const value = await jwt.sign(req.body.user.name,process.env.REFRESH_TOKEN)
+    console.log(value)
+    await tokenSchema.deleteMany({token:value})
+    return res.send("successfully loggedout")
     next()
 }
 

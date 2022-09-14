@@ -1,15 +1,25 @@
 
 const commentSchema = require('../schema/commentSchema')
 async function comment(req,res,next){
+    const {blogId,comment} = req.body
+    if(!blogId){
+        return res.send("blog id is required")
+    }
+    if(!comment){
+        return res.send("comment is required")
+    }
+    if(comment.length > 300){
+        return res.send("comment can't more than 300 words")
+    }
     const data = {
-        blogId:req.body.blogId,
+        blogId:blogId,
         madeBy:req.body.user.name,
-        comment:req.body.comment,
+        comment:comment
         
     }
-    const comment = new commentSchema(data)
+    const commentSave = new commentSchema(data)
     try{
-        await comment.save()
+        await commentSave.save()
     }
     catch(err){
         console.log("error occured while saving comment ")
@@ -39,12 +49,19 @@ async function commentDelete(req,res,next){
 }
 
 async function commentUpdate(req,res,next){
+    
     console.log("this is comment updater")
     if(req.body.commentId.length != 24){
         return res.send("comment not found")
     }
-    
+    const value = req.body.comment
+    if(value > 300){
+        return res.send("comment can't be greater than 300 words")
+    }
+
     const comment =await commentSchema.findOne({_id:req.body.commentId})
+    
+    
     if(comment ===null){
         return res.send("comment not found")
 
@@ -53,7 +70,9 @@ async function commentUpdate(req,res,next){
     if(comment.madeBy != req.body.user.name){
         return res.send("not authorized")
     }
+
     const commentUpdate = await commentSchema.findOne({_id:req.body.commentId})
+  
     commentUpdate.comment = req.body.comment
     await commentUpdate.save()
     
