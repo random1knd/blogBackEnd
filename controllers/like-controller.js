@@ -27,12 +27,12 @@ catch(err){
 
 async function likesDelete(req,res,next){
     if(req.body.blogId >=24){
-        return res.send("post not found firstone")
+        return res.status(400).send("Invalid request")
     }
     
     const auth =await blogSchema.findOne({_id:req.body.blogId})
     if(auth == null){
-        return res.send("post not found")
+        return res.statu(400).send("post not found")
     }
     if(auth.createdBy != req.body.user.name){
         return res.send("not authorized from likes delete")
@@ -60,4 +60,21 @@ async function commentLikesDelete(req,res,next){
         console.log("error comment likes delete")
     }
 }
-module.exports = { liker, likesDelete, commentLikesDelete}
+
+async function likes(req,res,next){
+    try{
+        if(req.pramas.commentId.length != 24){
+            res.send("comment object not found")
+        }
+        const values =await likeSchema.findMany({object:req.params.commentsId})
+        let count=0
+        values.forEach(values=>{
+            count++
+        }) 
+        return res.send(count)
+
+    }catch(err){
+        console.log()
+    }
+}
+module.exports = { liker, likesDelete, commentLikesDelete ,likes}

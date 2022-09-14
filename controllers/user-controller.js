@@ -7,16 +7,16 @@ const {secretKeySchema} = require('../schema/secretKeysSchema')
 async function register(req,res,next){
     try{
     const { user, password,description,email} = req.body
-    if(!user){
-        return res.send("username is required")
+    if(!user || user ==""){
+        return res.status(400).send("username is required")
     }
-    if(!password || password.legnt < 7){
-        return res.send("password is required and with the right length")
+    if(!password || password.length < 7){
+        return res.send("password is required and with the right length min 7 characters")
     }
-    if(!description){
+    if(!description || description ==""){
         return res.send("description is required")
     }
-    if(!email){
+    if(!email || email ==""){
         return res.send("email is required")
     }
     const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -75,22 +75,7 @@ async function login(req,res,next){
 function generateAccessToken(user){
     return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'60m'})
 }
-async function createNewToken(req,res,next){
-    
-    const refreshToken = req.body.token
-    if(refreshToken == null) return res.send("not found")
-    if(await tokenSchema.find({token:refreshToken}) == []){
-        return res.send("not found")
-    }
-    
-    jwt.verify(refreshToken,process.env.REFRESH_TOKEN,(err,user)=>{
-        if (err) return res.send("not authentic token")
-        const newAccessToken = generateAccessToken({name:user.name})
-        res.send(newAccessToken)
-        next()
-    })
 
-}
 
 
 
@@ -106,4 +91,4 @@ async function logout(req,res,next){
     next()
 }
 
-module.exports = {register , login, logout   , createNewToken}
+module.exports = {register , login, logout   ,generateAccessToken}

@@ -91,4 +91,14 @@ async function commentsDelete(req,res,next){
     next()
 }
 
-module.exports = {comment , commentDelete , commentUpdate ,commentsDelete}
+async function comments(req,res,next){
+    try{
+        
+        const comments = await commentSchema.find({blogId:req.body.blogId})
+        return res.send(comments)
+    }
+    catch(err){
+
+    }
+}
+module.exports = {comment , commentDelete , commentUpdate ,commentsDelete ,comments}
