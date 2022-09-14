@@ -6,7 +6,7 @@ async function liker(req,res,next){
 
     try{
         if(!req.body.object){
-            return res.status(400).send("invalid body")
+            return res.status(400).send("invalid request  body")
         }
     const findLike = await likeSchema.findOne({likedBy:req.body.user.name,object:req.body.object})
     if(findLike===null){
@@ -29,7 +29,7 @@ catch(err){
 }
 
 async function likesDelete(req,res,next){
-    if(!req.body.blogId || req.body.blogId >=24){
+    if(!req.body.blogId || req.body.blogId !=24){
         return res.status(400).send("Invalid request")
     }
     
@@ -73,7 +73,7 @@ async function likes(req,res,next){
             return res.status(400).send("Invalid request body")
         }
         if(req.pramas.commentId.length != 24){
-            res.status(400).send("comment object not found")
+            res.status(400).send("Invalid request body")
         }
         const values =await likeSchema.findMany({object:req.params.commentsId})
         let count=0

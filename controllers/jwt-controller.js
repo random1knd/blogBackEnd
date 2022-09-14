@@ -8,7 +8,7 @@ async function authenticateToken(req,res,next){
     
     
    const token = authHeader && authHeader.split(' ')[1]
-    if(token == null) return res.send("token not found")
+    if(token == null) return res.status(400).send("token not found")
    
    jwt.verify(token,process.env.ACCESS_TOKEN,(err,user)=>{
     if (err.msg=="session expired")
@@ -29,7 +29,7 @@ async function createNewToken(req,res,next){
     const refreshToken = req.body.token
     if(refreshToken == null) return res.send("not found")
     if(await tokenSchema.findOne({token:refreshToken}) == null){
-        return res.send("refresh token not found login again")
+        return res.status(400).send("refresh token not found login again")
     }
     
     jwt.verify(refreshToken,process.env.REFRESH_TOKEN,(err,user)=>{

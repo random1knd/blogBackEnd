@@ -38,7 +38,7 @@ async function post(req,res,next){
 
 
 async function postDelete(req,res,next){
-   console.log("lets see if this is working")
+   //console.log("lets see if this is working")
     try{
         
         if(!req.body.blogId.length || req.body.blogId.length !=24){
@@ -72,7 +72,7 @@ async function postDelete(req,res,next){
 }
 
 async function postUpdate(req,res,next){
-    console.log("let's see if this is working postUpdate")
+    //console.log("let's see if this is working postUpdate")
     try{
         if(!req.body.postId || req.body.postId.length != 24){
             return res.status(400).send("reqeuest body not valid")
@@ -92,7 +92,7 @@ async function postUpdate(req,res,next){
       
     
         if(title.length > 200 || description.length > 300 || blogData.length > 2000){
-            return res.send("make sure title - 200 words, description - 300 words ,post - 2000 words")
+            return res.status(400).send("make sure title - 200 words, description - 300 words ,post - 2000 words")
         }
     
 
@@ -115,11 +115,17 @@ async function postUpdate(req,res,next){
 
 async function getPosts(req,res,next){
     const posts = await blog.find()
-    res.send(posts)
+    if(posts.length == 0){
+        return res.status(404).send("posts not found")
+    }
+    res.status(200).send(posts)
 }
 
 async function getSinglePost(req,res,next){
-    console.log("lets see if this is working")
+    // console.log("lets see if this is working")
+    if(!req.params.id){
+        return res.staus(400).send("Invalid request")
+    }
     const post = await blog.findById({_id:req.params.id})
     const something = "value"
     

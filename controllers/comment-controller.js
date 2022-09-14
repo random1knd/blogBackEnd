@@ -9,7 +9,7 @@ async function comment(req,res,next){
         return res.status(400).send("comment is required")
     }
     if(comment.length > 300){
-        return res.status(400).send("comment can't more than 300 words")
+        return res.status(413).send("comment can't more than 300 words")
     }
     const data = {
         blogId:blogId,
@@ -31,7 +31,7 @@ async function comment(req,res,next){
 async function commentDelete(req,res,next){
     console.log("this is comment deleter")
     if(!req.body.commentId || req.body.commentId.length != 24){
-        return res.status(400).send("comment not found")
+        return res.status(400).send("Invalid request body")
     }
     
     const comment =await commentSchema.findOne({_id:req.body.commentId})
