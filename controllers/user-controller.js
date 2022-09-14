@@ -19,7 +19,10 @@ async function register(req,res,next){
     if(!email){
         return res.send("email is required")
     }
-
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(!email.match(validRegex)){
+        return res.send("input valid emaild id")
+    }
     const details = {
         user:user,
         password:await bcrypt.hash(password,10),
