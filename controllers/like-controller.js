@@ -24,5 +24,13 @@ catch(err){
     
 }
 
-
-module.exports = { liker}
+async function likesDelete(req,res,next){
+    /*
+    const comments =await commentSchema.find({blogId:req.body.blogId})
+    comments.forEach(async c =>{
+        await likeSchema.deleteMany({object:comments._id})
+    })
+    */
+   next()
+}
+module.exports = { liker, likesDelete}

@@ -80,4 +80,15 @@ async function commentUpdate(req,res,next){
 }
 
 
-module.exports = {comment , commentDelete , commentUpdate}
+async function commentsDelete(req,res,next){
+    /*
+    try{
+        await commentSchema.deleteMany({blogId:req.body.blogId})
+    }catch(err){
+        console.log("some error while deleting the post")
+    }
+    */
+    next()
+}
+
+module.exports = {comment , commentDelete , commentUpdate ,commentsDelete}

@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 const {register,login, logout, authenticateToken, createNewToken} = require('../controllers/user-controller')
 const {post, postDelete , postUpdate ,getPosts, getSinglePost} = require('../controllers/post-controller')
-const {comment ,commentDelete , commentUpdate } = require('../controllers/comment-controller.js')
-const {liker} = require('../controllers/like-controller')
+const {comment,commentsDelete ,commentDelete , commentUpdate } = require('../controllers/comment-controller.js')
+const {liker,likesDelete} = require('../controllers/like-controller')
 
 router.post('/register',register)
 
@@ -18,7 +18,7 @@ router.post('/login',login,(req,res)=>{
 router.post('/logout',authenticateToken,logout)
 
 router.post('/post',authenticateToken,post)
-router.delete('/postDelete',authenticateToken,postDelete)
+router.delete('/postDelete',authenticateToken,commentsDelete,likesDelete,postDelete)
 router.put('/postUpdate',authenticateToken,postUpdate)
 router.get('/getPosts',getPosts)
 router.get('/getSinglePost/:id',authenticateToken,getSinglePost)
