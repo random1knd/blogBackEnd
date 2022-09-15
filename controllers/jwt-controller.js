@@ -11,11 +11,13 @@ async function authenticateToken(req,res,next){
     if(token == null) return res.status(400).send("token not found")
    
    jwt.verify(token,process.env.ACCESS_TOKEN,(err,user)=>{
-    if (err.msg=="session expired")
+    if (err)
     {
-    return res.status(400).send("not authentic")
-    }else{
-        return res.status(400).send('Not autheticated user')
+        if(err.msg=="session expired"){
+            return res.status(403).send({success:false,message:"Access Token not found"})
+        }else{
+            return res.status(400).send({success:false,message:err})
+        }
     }
     req.body.user = user
     next()
