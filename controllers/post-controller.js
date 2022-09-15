@@ -123,14 +123,18 @@ async function getPosts(req,res,next){
 
 async function getSinglePost(req,res,next){
     // console.log("lets see if this is working")
-    if(!req.params.id){
+    if(!req.params.id || req.params.id != 24){
         return res.staus(400).send({success:false,message:"Invalid request"})
     }
+    try{
     const post = await blog.findById({_id:req.params.id})
     const something = "value"
     
-    res.status(200).send(something)
-    
+    return res.status(200).send({success:true,message:post})
+    }catch(err){
+        return res.status(400).send({success:true,message:"something went wrong"})
+        console.log(err)
+    }
     next()
 }
 
