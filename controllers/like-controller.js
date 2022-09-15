@@ -83,7 +83,10 @@ async function likes(req,res,next){
         if(req.pramas.commentId.length != 24){
             res.status(400).send({success:false,message:"Invalid request body"})
         }
-        const values =await likeSchema.findMany({object:req.params.commentsId})
+        const values =await likeSchema.find({object:req.params.commentsId})
+        if(values == []){
+            return res.status.send({success:false,message:"object not found"})
+        }
         let count=0
         values.forEach(values=>{
             count++
