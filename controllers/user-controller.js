@@ -21,8 +21,11 @@ async function register(req,res,next){
     }
     const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if(!email.match(validRegex)){
+
+        
         return res.status(400).send({success:false,message:"Input valid emailid"})
     }
+    if(await userSchema.findOne({email:email})!=null){return res.status(400).send({success:false,message:"email already exists"})}
     const details = {
         user:user,
         password:await bcrypt.hash(password,10),

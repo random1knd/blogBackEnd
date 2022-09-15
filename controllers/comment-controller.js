@@ -36,7 +36,7 @@ async function commentDelete(req,res,next){
     
     const comment =await commentSchema.findOne({_id:req.body.commentId})
     if(comment ===null){
-        return res.status(400).send({success:false,message:"comment comment not found"})
+        return res.status(400).send({success:false,message:"comment  not found"})
 
 
     }
