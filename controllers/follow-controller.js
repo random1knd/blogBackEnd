@@ -7,7 +7,7 @@ async function follower(req,res,next){
     }
     const user = userSchema.findOne({user:req.body.follow})
     if(user== null){
-        return res.send("user not found")
+        return res.status(400).send({success:false,message:"user not found"})
     }
     const value = await followSchema.findOne({followedBy:req.body.user.name,following:req.body.follow})
     console.log(value)
@@ -39,7 +39,7 @@ async function notified(req,res,next){
    try{
     const notifications =await notificationSchema.find({updateFor:req.body.user.name})
     if(notifications == []){
-        return res.status(200).send("not notifications here")
+        return res.status(200).send({success:true,message:"not notifications here"})
     } 
     
     res.status(200).send(notifications)
