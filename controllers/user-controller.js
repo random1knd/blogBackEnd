@@ -8,20 +8,20 @@ async function register(req,res,next){
     try{
     const { user, password,description,email} = req.body
     if(!user || user ==""){
-        return res.status(400).send("username is required")
+        return res.status(400).send({success:false,message:"username is required"})
     }
     if(!password || password.length < 7){
-        return res.status(400).send("password is required and with the right length min 7 characters")
+        return res.status(400).send({success:false,message:"password is required and with the right length min 7 characters"})
     }
     if(!description || description ==""){
-        return res.status(400).send("description is required")
+        return res.status(400).send({success:false,message:"description is required"})
     }
     if(!email || email ==""){
-        return res.status(400).send("email is required")
+        return res.status(400).send({success:false,message:"email is required"})
     }
     const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if(!email.match(validRegex)){
-        return res.status(400).send("input valid emaild id")
+        return res.status(400).send({success:false,message:"Input valid emailid"})
     }
     const details = {
         user:user,
@@ -33,27 +33,27 @@ async function register(req,res,next){
     await userSave.save()
 }catch(err){
     console.log(err)
-    return res.status(400).send("user could not be created try changing the user name and make sure your email id is proper")
+    return res.status(400).send({success:false,message:"user could not be created try changing the user name and make sure your email id is proper"})
 }
-return res.status(201).send("user has been created")
+return res.status(201).send({success:true,message:"user has been created"})
 
 }
 
 async function login(req,res,next){
     if(!req.body.user || !req.body.password){
-        return res.status(400).send("both username and password are required for login")
+        return res.status(400).send({success:false,message:"both username and password are required for login"})
     }
     const user = req.body.user
    try{
     const value =  await userSchema.findOne({user:user})
     
     if (value === null){
-        return res.status(404).send("username not found")
+        return res.status(404).send({success:false,message:"username not found"})
     }
     const password = await userSchema.findOne({user:user})
    
     if(!await bcrypt.compare(req.body.password,password.password)){
-        return res.status(403).send("password does not match")
+        return res.status(403).send({success:false,message:"password does not match"})
     }
     const username = {name:user}
     

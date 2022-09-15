@@ -8,7 +8,7 @@ async function authenticateToken(req,res,next){
     
     
    const token = authHeader && authHeader.split(' ')[1]
-    if(token == null) return res.status(400).send("token not found")
+    if(token == null) return res.status(400).send({success:false,message:"token not found"})
    
    jwt.verify(token,process.env.ACCESS_TOKEN,(err,user)=>{
     if (err)

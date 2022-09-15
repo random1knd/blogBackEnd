@@ -38,15 +38,15 @@ catch(err){
 
 async function likesDelete(req,res,next){
     if(!req.body.blogId || req.body.blogId !=24){
-        return res.status(400).send("Invalid request")
+        return res.status(400).send({success:false,message:"Invalid request"})
     }
     
     const auth =await blogSchema.findOne({_id:req.body.blogId})
     if(auth == null){
-        return res.statu(400).send("post not found")
+        return res.statu(400).send({success:false,message:"post not found"})
     }
     if(auth.createdBy != req.body.user.name){
-        return res.send("not authorized from likes delete")
+        return res.send({success:false,message:"not authorized from likes delete"})
     }
 
 
@@ -67,7 +67,7 @@ async function likesDelete(req,res,next){
 async function commentLikesDelete(req,res,next){
     try{
         if(!req.body.commentId){
-            return res.status(400).send("Invalid request body")
+            return res.status(400).send({success:false,message:"Invalid request body"})
         }
         await likeSchema.deleteMany({object:req.body.commentId})
     }catch(err){
@@ -78,10 +78,10 @@ async function commentLikesDelete(req,res,next){
 async function likes(req,res,next){
     try{
         if(!req.params.commentId){
-            return res.status(400).send("Invalid request body")
+            return res.status(400).send({success:false,message:"Invalid request body"})
         }
         if(req.pramas.commentId.length != 24){
-            res.status(400).send("Invalid request body")
+            res.status(400).send({success:false,message:"Invalid request body"})
         }
         const values =await likeSchema.findMany({object:req.params.commentsId})
         let count=0

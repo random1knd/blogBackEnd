@@ -3,13 +3,13 @@ const commentSchema = require('../schema/commentSchema')
 async function comment(req,res,next){
     const {blogId,comment} = req.body
     if(!blogId || blogId ==""){
-        return res.status(400).send("blog id is required")
+        return res.status(400).send({success:false,message:"blog id is required"})
     }
     if(!comment || comment==""){
-        return res.status(400).send("comment is required")
+        return res.status(400).send({success:false,message:"comment is required"})
     }
     if(comment.length > 300){
-        return res.status(413).send("comment can't more than 300 words")
+        return res.status(413).send({success:false,message:"comment can't more than 300 words"})
     }
     const data = {
         blogId:blogId,
@@ -84,7 +84,7 @@ async function commentsDelete(req,res,next){
     
     try{
         if(!req.body.commentId){
-            return res.status(400).send("request body not valid")
+            return res.status(400).send({success:false,message:"request body not valid"})
         }
         await commentSchema.deleteMany({blogId:req.body.blogId})
     }catch(err){
@@ -97,7 +97,7 @@ async function commentsDelete(req,res,next){
 async function comments(req,res,next){
     try{
         if(!req.body.blogId){
-            return res.status(400).send("request body invalid")
+            return res.status(400).send({success:false,message:"request body invalid"})
         }
         const comments = await commentSchema.find({blogId:req.body.blogId})
         return res.status(200).send(comments)
