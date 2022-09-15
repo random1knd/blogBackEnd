@@ -1,6 +1,6 @@
 
 const commentSchema = require('../schema/commentSchema')
-async function comment(req,res,next){
+const comment = async (req,res,next) =>{
     const {blogId,comment} = req.body
     if(!blogId || blogId ==""){
         return res.status(400).send({success:false,message:"blog id is required"})
@@ -28,7 +28,7 @@ async function comment(req,res,next){
     next()
 }
 
-async function commentDelete(req,res,next){
+const commentDelete = async (req,res,next) =>{
     console.log("this is comment deleter")
     if(!req.body.commentId || req.body.commentId.length != 24){
         return res.status(400).send({success:false,message:"Invalid request body"})
@@ -48,7 +48,7 @@ async function commentDelete(req,res,next){
 
 }
 
-async function commentUpdate(req,res,next){
+const commentUpdate = async (req,res,next) =>{
     
     console.log("this is comment updater")
     if(!req.body.commentId || req.body.commentId.length != 24){
@@ -80,7 +80,7 @@ async function commentUpdate(req,res,next){
 }
 
 
-async function commentsDelete(req,res,next){
+const commentsDelete = async (req,res,next) =>{
     
     try{
         if(!req.body.commentId){
@@ -94,7 +94,7 @@ async function commentsDelete(req,res,next){
     next()
 }
 
-async function comments(req,res,next){
+const comments = async (req,res,next) =>{
     try{
         if(!req.body.blogId){
             return res.status(400).send({success:false,message:"request body invalid"})

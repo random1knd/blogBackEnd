@@ -2,7 +2,7 @@ const blog = require('../schema/blogSchema')
 const commentsDelete  = require('../controllers/comment-controller')
 
 
-async function post(req,res,next){
+const post = async (req,res,next) =>{
     
     const {title,description,blogData}  =req.body
     if(!title){
@@ -37,7 +37,7 @@ async function post(req,res,next){
 
 
 
-async function postDelete(req,res,next){
+const postDelete = async (req,res,next) =>{
    //console.log("lets see if this is working")
     try{
         
@@ -71,7 +71,7 @@ async function postDelete(req,res,next){
     next()
 }
 
-async function postUpdate(req,res,next){
+const postUpdate = async (req,res,next) => {
     //console.log("let's see if this is working postUpdate")
     try{
         if(!req.body.postId || req.body.postId.length != 24){
@@ -113,15 +113,15 @@ async function postUpdate(req,res,next){
     next()
 }
 
-async function getPosts(req,res,next){
+const getPosts = async (req,res,next) =>{
     const posts = await blog.find()
     if(posts.length == 0){
         return res.status(404).send({success:false,message:"posts not found"})
     }
-    res.status(200).send(posts)
+    res.status(200).send({success:true,message:posts})
 }
 
-async function getSinglePost(req,res,next){
+const getSinglePost = async (req,res,next) =>{
     // console.log("lets see if this is working")
     if(!req.params.id || req.params.id != 24){
         return res.staus(400).send({success:false,message:"Invalid request"})

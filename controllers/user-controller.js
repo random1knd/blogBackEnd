@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const tokenSchema = require('../schema/tokenSchema')
 const {secretKeySchema} = require('../schema/secretKeysSchema')
-async function register(req,res,next){
+
+const register = async (req,res,next) =>{
     try{
     const { user, password,description,email} = req.body
     if(!user || user ==""){
@@ -42,7 +43,7 @@ return res.status(201).send({success:true,message:"user has been created"})
 
 }
 
-async function login(req,res,next){
+const login = async (req,res,next) =>{
     if(!req.body.user || !req.body.password){
         return res.status(400).send({success:false,message:"both username and password are required for login"})
     }

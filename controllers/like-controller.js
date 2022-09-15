@@ -2,7 +2,7 @@ const likeSchema = require('../schema/likeSchema')
 const comment = require('../schema/commentSchema')
 const commentSchema = require('../schema/commentSchema')
 const blogSchema = require('../schema/blogSchema')
-async function liker(req,res,next){
+const liker = async (req,res,next) =>{
 
     try{
         if(!req.body.object){
@@ -36,7 +36,7 @@ catch(err){
     
 }
 
-async function likesDelete(req,res,next){
+const likesDelete = async (req,res,next) =>{
     if(!req.body.blogId || req.body.blogId !=24){
         return res.status(400).send({success:false,message:"Invalid request"})
     }
@@ -64,7 +64,7 @@ async function likesDelete(req,res,next){
    next()
 }
 
-async function commentLikesDelete(req,res,next){
+const commentLikesDelete = async (req,res,next) =>{
     try{
         if(!req.body.commentId){
             return res.status(400).send({success:false,message:"Invalid request body"})
@@ -75,7 +75,7 @@ async function commentLikesDelete(req,res,next){
     }
 }
 
-async function likes(req,res,next){
+const likes = async (req,res,next) =>{
     try{
         if(!req.params.commentId){
             return res.status(400).send({success:false,message:"Invalid request body"})
