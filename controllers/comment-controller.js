@@ -1,4 +1,5 @@
 
+const blogSchema = require('../schema/blogSchema')
 const commentSchema = require('../schema/commentSchema')
 const comment = async (req,res,next) =>{
     const {blogId,comment} = req.body
@@ -10,6 +11,20 @@ const comment = async (req,res,next) =>{
     }
     if(comment.length > 300){
         return res.status(413).send({success:false,message:"comment can't more than 300 words"})
+    }
+    //Checks if the post with the id exists
+    try{
+
+    const exist =await blogSchema.findOne({_id:blogId})
+    if(exist == null){
+        return res.status(400).send({success:false,message:"post not found"})
+    }
+    }
+    catch(err){
+        //Throws error if the blogId is not according to mongodb
+        console.log(err)
+
+        return res.status(400).send({success:false,message:"something went wrong"})
     }
     const data = {
         blogId:blogId,
@@ -30,15 +45,18 @@ const comment = async (req,res,next) =>{
 
 const commentDelete = async (req,res,next) =>{
     console.log("this is comment deleter")
-    if(!req.body.commentId || req.body.commentId.length != 24){
+    if(!req.body.commentId){
         return res.status(400).send({success:false,message:"Invalid request body"})
     }
-    
+    try{
     const comment =await commentSchema.findOne({_id:req.body.commentId})
     if(comment ===null){
         return res.status(400).send({success:false,message:"comment  not found"})
 
 
+    }
+    }catch(err){
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
     }
     if(comment.madeBy != req.body.user.name){
         return res.status(403).send({seccuess:false,message:"Not authorized"})
@@ -51,16 +69,19 @@ const commentDelete = async (req,res,next) =>{
 const commentUpdate = async (req,res,next) =>{
     
     console.log("this is comment updater")
-    if(!req.body.commentId || req.body.commentId.length != 24){
+    if(!req.body.commentId){
         return res.status(400).send({success:false,message:"Request body Invalid"})
     }
     const value = req.body.comment
     if(value == "" || value > 300){
         return res.status(413).send({success:false,message:"comment can't be lesser than 1 words and greater than 300 words"})
     }
-
+    try{
     const comment =await commentSchema.findOne({_id:req.body.commentId})
-    
+
+    }catch(err){
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right "})
+    }
     
     if(comment ===null){
         return res.status(404).send({success:false,message:"comment not found"})
@@ -89,21 +110,24 @@ const commentsDelete = async (req,res,next) =>{
         await commentSchema.deleteMany({blogId:req.body.blogId})
     }catch(err){
         console.log("some error while deleting the post")
+        return res.status(400).send({success:false,message:"some error occured deleting the comment"})
     }
     
     next()
 }
 
+//Fetches the comments linked to a blog
 const comments = async (req,res,next) =>{
     try{
         if(!req.body.blogId){
             return res.status(400).send({success:false,message:"request body invalid"})
         }
         const comments = await commentSchema.find({blogId:req.body.blogId})
-        return res.status(200).send(comments)
+        return res.status(200).send({success:true,message:comments})
     }
     catch(err){
-
+        console.log(err)
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
     }
 }
 module.exports = {comment , commentDelete , commentUpdate ,commentsDelete ,comments}

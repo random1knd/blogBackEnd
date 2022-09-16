@@ -114,7 +114,7 @@ const postUpdate = async (req,res,next) => {
 }
 
 const getPosts = async (req,res,next) =>{
-    const posts = await blog.find()
+    const posts = await blog.find({status:"Approved"})
     if(posts.length == 0){
         return res.status(404).send({success:false,message:"posts not found"})
     }
