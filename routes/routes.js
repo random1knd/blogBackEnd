@@ -18,29 +18,57 @@ router.post('/login',login,(req,res)=>{
 
 router.post('/logout',authenticateToken,logout)
 
+//Start of post section
+//To POST a post
 router.post('/post',authenticateToken,post,notification)
-router.delete('/postDelete',authenticateToken,likesDelete,commentsDelete,postDelete)
-router.put('/postUpdate',authenticateToken,postUpdate)
-router.get('/getPosts',getPosts)
-router.get('/getSinglePost/:id',authenticateToken,getSinglePost)
+//To DELETE a post , delete comments and likes as middleware
+router.delete('/post',authenticateToken,likesDelete,commentsDelete,postDelete)
+//To UPDATE post
+router.put('/post',authenticateToken,postUpdate)
+//To get all the posts which are approved
+router.get('/post',getPosts)
+//To get single post with id 
+router.get('/post/:id',authenticateToken,getSinglePost)
+//End of post section
 
+
+
+//Start of comment section
+//fetches comments linked with a blog
 router.post('/comments',comments)
+
+//To post a comment
 router.post('/comment',authenticateToken,comment)
-router.delete('/commentDelete',authenticateToken,commentDelete,commentLikesDelete)
-router.put('/commentUpdate',authenticateToken,commentUpdate)
+
+//TO delete a comment
+router.delete('/comment',authenticateToken,commentDelete,commentLikesDelete)
+
+//To update comment
+router.put('/comment',authenticateToken,commentUpdate)
+//End of comment section
 
 
+//Start of likes section
+//To like a comment
 router.post('/like',authenticateToken,liker)
-router.post('/likes',likes)
 
+//To bring likes linked to a comment
+router.post('/likes',likes)
+//End of likes section
+
+//Start of notification section
 router.post('/notifications',authenticateToken,notified)
+//End of Notification section
 
 
 router.post('/dummy',authenticateToken,(req,res)=>{
    res.send(req.body.user.name)
 })
 
+//start of follower section 
+//To follow a user 
 router.post('/follow',authenticateToken,follower)
+//End of followe section
 
 router.post('/token',createNewToken)
 module.exports = router
