@@ -50,7 +50,7 @@ const login = async (req,res,next) =>{
     const user = req.body.user
    try{
     const value =  await userSchema.findOne({user:user})
-    
+    const role = value.role
     if (value === null){
         return res.status(404).send({success:false,message:"username not found"})
     }
@@ -59,12 +59,12 @@ const login = async (req,res,next) =>{
     if(!await bcrypt.compare(req.body.password,password.password)){
         return res.status(403).send({success:false,message:"password does not match"})
     }
-    const username = {name:user}
+    const username = {name:user,role:role}
     
 
     const accessToken = generateAccessToken(username)
 
-    const refreshToken = jwt.sign(user,process.env.REFRESH_TOKEN)
+    const refreshToken = jwt.sign(username,process.env.REFRESH_TOKEN)
     
     const token  = new tokenSchema({token:refreshToken})
     await token.save()

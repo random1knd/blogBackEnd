@@ -20,6 +20,8 @@ async function authenticateToken(req,res,next){
         }
     }
     req.body.user = user
+    
+    
     next()
 })
     

@@ -6,6 +6,9 @@ const {comment,commentsDelete ,commentDelete , commentUpdate ,comments } = requi
 const {liker,likesDelete,commentLikesDelete,likes} = require('../controllers/like-controller')
 const { follower, notification ,notified} = require('../controllers/follow-controller')
 const { authenticateToken ,createNewToken } = require('../controllers/jwt-controller')
+const { getPostsAdmin, approve } = require('../controllers/admin-controller')
+
+//To REGISTER user
 router.post('/register',register)
 
 
@@ -21,6 +24,10 @@ router.post('/logout',authenticateToken,logout)
 //Start of post section
 //To POST a post
 router.post('/post',authenticateToken,post,notification)
+//Fetch posts for admin which are pending
+router.post('/adminPosts',authenticateToken,getPostsAdmin)
+//To APPROVE the post
+router.post('/approve',authenticateToken,approve)
 //To DELETE a post , delete comments and likes as middleware
 router.delete('/post',authenticateToken,likesDelete,commentsDelete,postDelete)
 //To UPDATE post
@@ -62,7 +69,7 @@ router.post('/notifications',authenticateToken,notified)
 
 
 router.post('/dummy',authenticateToken,(req,res)=>{
-   res.send(req.body.user.name)
+   res.send({username:req.body.user.name,role:req.body.user.role})
 })
 
 //start of follower section 
