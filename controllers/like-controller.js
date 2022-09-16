@@ -8,9 +8,7 @@ const liker = async (req,res,next) =>{
         if(!req.body.object){
             return res.status(400).send("invalid request  body")
         }
-        if(req.body.object !=24){
-            return res.status(400).send({success:false,message:"Invalid request body"})
-        }
+        
         const findComment = await commentSchema.findOne({_id:req.body.object})
         if(findComment == null){
             return res.status(400).send({success:false,message:"comment not found"})
@@ -32,6 +30,7 @@ const liker = async (req,res,next) =>{
 }
 catch(err){
     console.log('error occured at the liking object')
+    return res.status(400).send({success:false,message:"something went wrong make sure the id is right "})
 }
     
 }
@@ -88,11 +87,9 @@ const likes = async (req,res,next) =>{
         if(!req.params.commentId){
             return res.status(400).send({success:false,message:"Invalid request body"})
         }
-        if(req.pramas.commentId.length != 24){
-            res.status(400).send({success:false,message:"Invalid request body"})
-        }
+      
         const values =await likeSchema.find({object:req.params.commentsId})
-        if(values == []){
+        if(values.length == 0){
             return res.status.send({success:false,message:"object not found"})
         }
         let count=0
@@ -103,6 +100,7 @@ const likes = async (req,res,next) =>{
 
     }catch(err){
         console.log()
+        return res.staus.send({success:false,message:"something went wrong make sure the id is right"})
     }
 }
 module.exports = { liker, likesDelete, commentLikesDelete ,likes}
