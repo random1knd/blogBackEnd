@@ -15,6 +15,11 @@ const blogSchema = new mongoose.Schema({
     blogData:{
         type:String,
         required:true
+    },
+    status:{
+        type:String,
+        enum:["Approved","Pending"],
+        default:"Pending"
     }
 })
 
