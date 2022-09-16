@@ -9,9 +9,10 @@ const register = async (req,res,next) =>{
     try{
     const { user, password,description,email} = req.body
     if(!user || user ==""){
-        return res.status(400).send({success:false,message:"username is required"})
+        return res.status(400).send({success:false,message:'username is required'})
+        //return res.status(400).send({success:false,message:"username is required"})
     }
-    if(!password || password.length < 7){
+    if(!password || password.length < 7 || password==""){
         return res.status(400).send({success:false,message:"password is required and with the right length min 7 characters"})
     }
     if(!description || description ==""){
@@ -45,7 +46,7 @@ return res.status(201).send({success:true,message:"user has been created"})
 
 const login = async (req,res,next) =>{
     if(!req.body.user || !req.body.password){
-        return res.status(400).send({success:false,message:"both username and password are required for login"})
+        return res.status(400).send({success:false,message:"both username and password are required"})
     }
     const user = req.body.user
    try{
@@ -68,7 +69,7 @@ const login = async (req,res,next) =>{
     
     const token  = new tokenSchema({token:refreshToken})
     await token.save()
-    res.json({accessToken:accessToken,refreshToken:refreshToken})
+    res.status(200).send({success:true,message:"logged in",accessToken:accessToken,refreshToken:refreshToken})
 }catch(err){
     console.log(err)
 }
