@@ -41,10 +41,13 @@ const postDelete = async (req,res,next) =>{
    //console.log("lets see if this is working")
     try{
         
-        if(!req.body.blogId.length || req.body.blogId.length !=24){
+        if(!req.body.blogId){
             return res.status(400).send({success:false,message:"request not valid"})
         }
+        
         const postCreator = await blog.findOne({_id:req.body.blogId})
+        
+          
         if(postCreator == null){
             return res.status(400).send({success:false,message:"post not found"})
         }
@@ -64,6 +67,7 @@ const postDelete = async (req,res,next) =>{
     }
     catch(err){
         console.log(err)
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
     }
     
     //res.send('data')
@@ -74,14 +78,20 @@ const postDelete = async (req,res,next) =>{
 const postUpdate = async (req,res,next) => {
     //console.log("let's see if this is working postUpdate")
     try{
-        if(!req.body.postId || req.body.postId.length != 24){
+        if(!req.body.blogId){
             return res.status(400).send({success:false,message:"reqeuest body not valid"})
         }
-        const post = await blog.findOne({_id:req.body.postId})
+        
+        const post = await blog.findOne({_id:req.body.blogId})
+        
+        
+           
         
         if(post == null){
             return res.status(404).send({success:false,message:"post not found"})
         }
+        console.log(post.title)
+       
         if(post.createdBy != req.body.user.name){
             return res.status(403).send({success:false,message:"not authorized"})
         }
@@ -107,6 +117,7 @@ const postUpdate = async (req,res,next) => {
         return res.status(200).send({success:true,message:"post updated successfully"})
     }catch(err){
         console.log(err)
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right "})
     }
     
    
@@ -123,7 +134,7 @@ const getPosts = async (req,res,next) =>{
 
 const getSinglePost = async (req,res,next) =>{
     // console.log("lets see if this is working")
-    if(!req.params.id || req.params.id != 24){
+    if(!req.params.id){
         return res.staus(400).send({success:false,message:"Invalid request"})
     }
     try{
@@ -132,7 +143,7 @@ const getSinglePost = async (req,res,next) =>{
     
     return res.status(200).send({success:true,message:post})
     }catch(err){
-        return res.status(400).send({success:true,message:"something went wrong"})
+        return res.status(400).send({success:true,message:"something went wrong make sure the id is right"})
         console.log(err)
     }
     next()

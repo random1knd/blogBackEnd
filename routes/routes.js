@@ -30,6 +30,9 @@ router.post('/adminPosts',authenticateToken,getPostsAdmin)
 router.post('/approve',authenticateToken,approve)
 //To DELETE a post , delete comments and likes as middleware
 router.delete('/post',authenticateToken,likesDelete,commentsDelete,postDelete)
+//Delete likesDelete commentsDelete postDelete
+
+
 //To UPDATE post
 router.put('/post',authenticateToken,postUpdate)
 //To get all the posts which are approved
@@ -49,6 +52,8 @@ router.post('/comment',authenticateToken,comment)
 
 //TO delete a comment
 router.delete('/comment',authenticateToken,commentDelete,commentLikesDelete)
+//Delete commentDelete commentLikesDelete
+
 
 //To update comment
 router.put('/comment',authenticateToken,commentUpdate)

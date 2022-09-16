@@ -37,11 +37,13 @@ catch(err){
 }
 
 const likesDelete = async (req,res,next) =>{
-    if(!req.body.blogId || req.body.blogId !=24){
+    if(!req.body.blogId){
         return res.status(400).send({success:false,message:"Invalid request"})
     }
-    
+    try{
     const auth =await blogSchema.findOne({_id:req.body.blogId})
+    
+            
     if(auth == null){
         return res.statu(400).send({success:false,message:"post not found"})
     }
@@ -60,6 +62,9 @@ const likesDelete = async (req,res,next) =>{
     comments.forEach(async c =>{
         await likeSchema.deleteMany({object:c._id})
     })
+}catch(err){
+    return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
+}
     
    next()
 }

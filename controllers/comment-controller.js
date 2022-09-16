@@ -79,9 +79,7 @@ const commentUpdate = async (req,res,next) =>{
     try{
     const comment =await commentSchema.findOne({_id:req.body.commentId})
 
-    }catch(err){
-        return res.status(400).send({success:false,message:"something went wrong make sure the id is right "})
-    }
+    
     
     if(comment ===null){
         return res.status(404).send({success:false,message:"comment not found"})
@@ -92,6 +90,11 @@ const commentUpdate = async (req,res,next) =>{
         return res.status(403).send({success:false,message:"Not authorized"})
     }
 
+    }catch(err){
+    
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right "})
+     
+    }
     const commentUpdate = await commentSchema.findOne({_id:req.body.commentId})
   
     commentUpdate.comment = req.body.comment
@@ -104,9 +107,7 @@ const commentUpdate = async (req,res,next) =>{
 const commentsDelete = async (req,res,next) =>{
     
     try{
-        if(!req.body.commentId){
-            return res.status(400).send({success:false,message:"request body not valid"})
-        }
+      
         await commentSchema.deleteMany({blogId:req.body.blogId})
     }catch(err){
         console.log("some error while deleting the post")
