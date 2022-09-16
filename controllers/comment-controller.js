@@ -55,12 +55,14 @@ const commentDelete = async (req,res,next) =>{
 
 
     }
-    }catch(err){
-        return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
-    }
     if(comment.madeBy != req.body.user.name){
         return res.status(403).send({seccuess:false,message:"Not authorized"})
     }
+
+    }catch(err){
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
+    }
+   
     await commentSchema.deleteOne({_id:req.body.commentId})
     return res.status(200).send({success:true,message:"comment successfully deleted"})
 

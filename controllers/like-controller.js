@@ -53,7 +53,9 @@ const likesDelete = async (req,res,next) =>{
 
 
     const comments =await commentSchema.find({blogId:req.body.blogId})
-    
+    if(comments.length ==0){
+        next()
+    }
     
     console.log(comments)
     comments.forEach(c=>{
@@ -77,6 +79,7 @@ const commentLikesDelete = async (req,res,next) =>{
         await likeSchema.deleteMany({object:req.body.commentId})
     }catch(err){
         console.log("error comment likes delete")
+        
     }
 }
 
