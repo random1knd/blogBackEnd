@@ -44,18 +44,18 @@ const likesDelete = async (req,res,next) =>{
     
             
     if(auth == null){
-        return res.statu(400).send({success:false,message:"post not found"})
+        return res.statu(404).send({success:false,message:"post not found"})
     }
     if(auth.createdBy != req.body.user.name){
-        return res.send({success:false,message:"not authorized from likes delete"})
+        return res.status(403).send({success:false,message:"not authorized user"})
     }
 
 
     const comments =await commentSchema.find({blogId:req.body.blogId})
     if(comments.length ==0){
-        next()
+        return next()
     }
-    
+    console.log("this won't show up ")
     console.log(comments)
     comments.forEach(c=>{
         console.log(c._id)

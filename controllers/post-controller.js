@@ -61,8 +61,12 @@ const postDelete = async (req,res,next) =>{
         }
         
         
-        await blog.deleteOne({_id:req.body.blogId})
-        return res.status(200).send({success:true,message:"succefully deleted the post"})
+        if(await blog.deleteOne({_id:req.body.blogId})){
+        console.log("error occuers after this")
+        console.log("deleted the post")
+        return res.status(200).send({success:true,message:"post deleted successfully"})
+    }
+        //return res.status(200).send({success:true,message:"succefully deleted the post"})
 
     }
     catch(err){
@@ -72,7 +76,7 @@ const postDelete = async (req,res,next) =>{
     
     //res.send('data')
     //res.send("this deltes post")
-    next()
+    
 }
 
 const postUpdate = async (req,res,next) => {
