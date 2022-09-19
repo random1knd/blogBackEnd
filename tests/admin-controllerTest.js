@@ -59,3 +59,38 @@ describe("reqeust body invalid",()=>{
         });
     });
 });
+
+
+
+describe("posts not found",()=>{
+    describe("not authorized",()=>{
+
+        it("not authorized",(done)=>{
+            const headers = {'Authorization':`bearer ${token1}`};
+            request.post({url:`${baseurl}/adminPosts`,headers},(_,response)=>{
+                expect(response.statusCode).to.equal(403);
+                const value = JSON.parse(response.body);
+                //console.log(response.body);
+                expect(value.message).to.equal("Not authorized");
+                done();
+            });
+
+        });
+
+
+        
+        it("pending posts",(done)=>{
+            const headers = {'Authorization':`bearer ${token}`};
+            request.post({url:`${baseurl}/adminPosts`,headers},(_,response)=>{
+                expect(response.statusCode).to.equal(200);
+                const value = JSON.parse(response.body);
+                //console.log(response.body);
+                expect(value.success).to.equal(true);
+                done();
+            });
+
+        });
+
+
+    });
+});
