@@ -207,3 +207,28 @@ describe("comment not found",()=>{
         });
     });
 });
+
+
+describe("invalid request body",()=>{
+    describe("post not found",()=>{
+        it("Invalid request body",(done)=>{
+            const payload = {blogId:""};
+            request.post({url:`${baseurl}/comments`,json:payload},(_,response)=>{
+                expect(response.body.message).to.equal("request body invalid");
+                expect(response.statusCode).to.equal(400);
+                done();
+            });
+        });
+
+
+        it("Invalid request body",(done)=>{
+            const payload = {blogId:"asdf3242"};
+            request.post({url:`${baseurl}/comments`,json:payload},(_,response)=>{
+                expect(response.body.message).to.equal("No comments found");
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+
+    });
+});

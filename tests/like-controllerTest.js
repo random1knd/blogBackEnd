@@ -51,4 +51,33 @@ describe("Invalid request ",()=>{
 
 
 
+describe("request body invalid",()=>{
+    describe("comment not found",()=>{
+        
+        
+        it("reqeust body not valid",(done)=>{
+            const payload = {commentId:""};
+            request.post({url:`${baseurl}/likes`},(_,response)=>{
+                //expect(response.statusCode).to.equal(400);
+                const value = JSON.parse(response.body);
+                expect(value.message).to.equal("Invalid request body");
+                expect(response.statusCode).to.equal(400);
+                done();
+            });
+        });
 
+
+
+        it("comment not found",(done)=>{
+            const payload = {commentId:"34534t34tgd"};
+            request.post({url:`${baseurl}/likes`, json:payload},(_,response)=>{
+                
+                
+                expect(response.body.message).to.equal("object not found");
+              
+                expect(response.statusCode).to.equal(404);
+                done();
+            });
+        });
+    });
+});

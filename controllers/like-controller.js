@@ -84,13 +84,14 @@ const commentLikesDelete = async (req,res,next) =>{
 
 const likes = async (req,res,next) =>{
     try{
-        if(!req.params.commentId){
+        if(!req.body.commentId){
             return res.status(400).send({success:false,message:"Invalid request body"})
         }
       
-        const values =await likeSchema.find({object:req.params.commentsId})
+        const values =await likeSchema.find({object:req.body.commentId})
+        console.log(values.length,values)
         if(values.length == 0){
-            return res.status.send({success:false,message:"object not found"})
+            return res.status(404).send({success:false,message:"object not found"})
         }
         let count=0
         values.forEach(values=>{

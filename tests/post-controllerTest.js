@@ -207,3 +207,11 @@ describe("post delete",()=>{
 });
 
 
+describe("get approved posts",()=>{
+    it("approved posts",(done)=>{
+        request.get({url:`${baseurl}/getPosts`},(_response)=>{
+            expect(response.statusCode).to.equal(200);
+            done();
+        })
+    })
+})
