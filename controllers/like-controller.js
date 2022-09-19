@@ -6,7 +6,7 @@ const liker = async (req,res,next) =>{
 
     try{
         if(!req.body.object){
-            return res.status(400).send("invalid request  body")
+            return res.status(400).send({success:false,message:"invalid request  body"})
         }
         
         const findComment = await commentSchema.findOne({_id:req.body.object})
@@ -22,7 +22,7 @@ const liker = async (req,res,next) =>{
         }
         const liker = new likeSchema(data)
         await liker.save()
-        return res.status(201).send("liked")
+        return res.status(201).send({success:false,message:"liked"})
     }else{
         await likeSchema.deleteOne({likedBy:req.body.user.name,object:req.body.object})
         return res.status(200).send({success:false,message:"like deleted"})
