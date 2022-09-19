@@ -31,15 +31,15 @@ describe("Invalid reqeust body user not provided",()=>{
         });
 
 
-        it("user not found",(done)=>{
-            const payload = {follow:"dikshith"};
-            const headers = {"Authorization":`bearer ${token1}`};
-            request.post({url:`${baseurl}/follow`,headers,json:payload},(_,response)=>{
-                expect(response.statusCode).to.equal(201);
-                expect(response.body.message).to.equal("following successfull");
-                done();
-            });
-        });
+        // it("following successfully",(done)=>{
+        //     const payload = {follow:"dikshith"};
+        //     const headers = {"Authorization":`bearer ${token1}`};
+        //     request.post({url:`${baseurl}/follow`,headers,json:payload},(_,response)=>{
+        //         expect(response.statusCode).to.equal(201);
+        //         expect(response.body.message).to.equal("following successfull");
+        //         done();
+        //     });
+        // });
 
         
 

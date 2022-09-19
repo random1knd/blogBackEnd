@@ -34,7 +34,7 @@ const approve = async (req,res,next) =>{
         const post =await blogSchema.findOne({_id:req.body.blogId})
         if(post == null){
             //returns false if post is not found
-            return res.status(400).send({success:false,message:"Post not found"})
+            return res.status(404).send({success:false,message:"Post not found"})
         }
         //If passes through all the checks changes the status to approve and saves it 
         post.status = "Approved"
