@@ -5,13 +5,13 @@ const commentsDelete  = require('../controllers/comment-controller')
 const post = async (req,res,next) =>{
     
     const {title,description,blogData}  =req.body
-    if(!title){
+    if(!title || title==""){
         return res.status(400).send({success:false,message:"title is required"})
     }
-    if(!description){
+    if(!description || description==""){
         return res.status(400).send({success:false,message:"description is required"})
     }
-    if(!blogData){
+    if(!blogData || blogData == ""){
         return res.status(400).send({success:false,message:"post information is required"})
     }
 
@@ -78,8 +78,8 @@ const postDelete = async (req,res,next) =>{
 const postUpdate = async (req,res,next) => {
     //console.log("let's see if this is working postUpdate")
     try{
-        if(!req.body.blogId){
-            return res.status(400).send({success:false,message:"reqeuest body not valid"})
+        if(!req.body.blogId || !req.body.blogData || !req.body.title){
+            return res.status(400).send({success:false,message:"request body not valid"})
         }
         
         const post = await blog.findOne({_id:req.body.blogId})
@@ -95,9 +95,10 @@ const postUpdate = async (req,res,next) => {
         if(post.createdBy != req.body.user.name){
             return res.status(403).send({success:false,message:"not authorized"})
         }
-        
-        const {title,blogData,description} = req.body
 
+        const {title,blogData,description} = req.body
+  
+        
         
       
     
@@ -112,12 +113,12 @@ const postUpdate = async (req,res,next) => {
         post.title = title
         post.description = description
 
-        post.save()
+        await post.save()
         console.log(post)
         return res.status(200).send({success:true,message:"post updated successfully"})
     }catch(err){
         console.log(err)
-        return res.status(400).send({success:false,message:"something went wrong make sure the id is right "})
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
     }
     
    
