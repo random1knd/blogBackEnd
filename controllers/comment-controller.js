@@ -35,11 +35,12 @@ const comment = async (req,res,next) =>{
     const commentSave = new commentSchema(data)
     try{
         await commentSave.save()
+        return res.status(201).send({success:true,message:"comment successfully created"})
     }
     catch(err){
         console.log("error occured while saving comment ")
     }
-        res.status(201).send({success:true,message:"comment successfully created"})
+    
     next()
 }
 
@@ -94,7 +95,7 @@ const commentUpdate = async (req,res,next) =>{
 
     }catch(err){
     
-        return res.status(400).send({success:false,message:"something went wrong make sure the id is right "})
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
      
     }
     const commentUpdate = await commentSchema.findOne({_id:req.body.commentId})
