@@ -1,4 +1,32 @@
 /**
+ * @api {get} /getPosts API to get posts
+ * @apiName getPosts
+ * @apiGroup Blog
+ * @apiError postsNotFound	This error occurs when there are no approved posts
+ * @apiErrorExample {json}	postsNotFoundError-Reponse:
+ * {
+ * success:false,
+ * message:"posts not found"
+ * }
+ * @apiSuccessExample {json} posts-Response:
+ * {
+ * success:true,
+ * message:[]
+ * }
+ * 
+ */ 
+
+
+
+
+
+
+
+
+
+
+
+/**
  * @api {post} /post	  API to post Posts
  * @apiName	post
  * @apiGroup Blog
@@ -47,3 +75,95 @@
  * 
  */
  
+
+ /**
+  * @api {put} /post API to udpate posts
+  * @apiName postUpdate
+  * @apiGroup Blog
+  * @apiHeader {String} accessTokens users unique accessToken required.
+  * @apiHeaderExample {json} AuthorizationHeader-Example:
+  * {
+  * "Authorization":`bearer ${String}`
+  * 
+  * }
+  * @apiBody {String} blogId id of the post
+  * @apiBody {String} title  title of the blog
+  * @apiBody {String}  description of the blog
+  * @apiBody {String}  blogData Information of the blog
+  * 
+  * @apiError requestBodyInvalid	This error will occur when blogId is missing
+  * @apiErrorExample {json} requestBodyInvalidError-Response:
+  * {
+  * success:false,
+  * message:"request body invalid"
+  * }
+  * 
+  * @apiError requestBodyInvalid 	This error will occur when blogData is missing
+  * @apiErrorExample {json}	requestBodyInvalidError-Response:
+  * {
+  * success:false,
+  * message:"request body invalid"
+  * } 
+  * @apiError requestBodyInvalid 	This error will occur when title is missing
+  * @apiErrorExample {json}	requestBodyInvalidError-Response:
+  * {
+  * success:false,
+  * message:"request body invalid"
+  * }
+  * @apiError requestBodyInvalid 	This error will occur when description is missing
+  * @apiErrorExample {json}	requestBodyInvalidError-Response:
+  * {
+  * success:false,
+  * message:"request body invalid"
+  * }
+  * @apiError postNotFound  	This error will occur when the post id is not found in the db
+  * @apiErrorExample {json}  postNotFoundError-Reponse:
+  * {
+  * success:false,
+  * message:"post not found"
+  * 
+  * }
+  * @apiSuccessExample: {json}	postUpdateSuccessfullySuccess-Response:
+  * {
+  * success;true,
+  * message:"post updated successfully"
+  * }
+  * 
+  * 
+  * 
+  * 
+  * 
+  */ 
+
+
+  /**
+   * @api {delete} /post API to delete posts
+   * @apiName postDelete
+   * @apiGroup Blog
+   * @apiHeader {String} accessToken  users unique accessToken required
+   * @apiHeaderExample {json}	AuthorizationHeader-Example:
+   * {
+   * "Authorization":`bearer ${String}`
+   * }
+   * @apiBody {String} blogId id of the post
+   * @apiError requestNotValid 	This error will occur when the post Id is not provided
+   * @apiErrorExample {json} requestNotValidError-Response:
+   * {
+   * success:false,
+   * message:"request not valid"
+   * }
+   * @apiError postNotFound 	This error occurs when the given postId is not found in db
+   * @apiErrorExample {json}	PostNotFoundError-Response:
+   * {
+   * success:false,
+   * message:"post not found"
+   * 
+   * }
+   * @apiSuccessExample {json} postDeleteSuccessfullySuccess-Response:
+   * {
+   * success:true,
+   * message:"post deleted successfully"
+   * 
+   * }
+   * 
+   */ 

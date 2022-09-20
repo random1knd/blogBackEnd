@@ -82,7 +82,7 @@ const postDelete = async (req,res,next) =>{
 const postUpdate = async (req,res,next) => {
     //console.log("let's see if this is working postUpdate")
     try{
-        if(!req.body.blogId || !req.body.blogData || !req.body.title){
+        if(!req.body.blogId || !req.body.blogData || !req.body.title || !req.body.description){
             return res.status(400).send({success:false,message:"request body not valid"})
         }
         
