@@ -1,7 +1,7 @@
 /** 
  * @api {post} /register Request user information
  * @apiName register 
- * @apiGroup users
+ * @apiGroup Users
  * @apibody {String} user   username of user.
  * @apibody {String} password   password of user.
  * @apibody {String} description    description of user.
@@ -62,7 +62,7 @@
 
 
  /**
-  * @api post /login User login API
+  * @api {post} /login User login API
   * @apiName Login
   * @apiGroup Users
   * @apibody {String} user username of the user.

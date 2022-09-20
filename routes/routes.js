@@ -51,7 +51,7 @@ router.post('/comments',comments)
 router.post('/comment',authenticateToken,comment)
 
 //TO delete a comment
-router.delete('/comment',authenticateToken,commentDelete,commentLikesDelete)
+router.delete('/comment',authenticateToken,commentLikesDelete,commentDelete)
 //Delete commentDelete commentLikesDelete
 
 

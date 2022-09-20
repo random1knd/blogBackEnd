@@ -80,6 +80,7 @@ const commentLikesDelete = async (req,res,next) =>{
         console.log("error comment likes delete")
         
     }
+    next()
 }
 
 const likes = async (req,res,next) =>{
