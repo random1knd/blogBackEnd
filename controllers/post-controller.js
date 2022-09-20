@@ -116,7 +116,7 @@ const postUpdate = async (req,res,next) => {
         post.blogData = blogData
         post.title = title
         post.description = description
-
+        
         await post.save()
         console.log(post)
         return res.status(200).send({success:true,message:"post updated successfully"})

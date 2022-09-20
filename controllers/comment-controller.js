@@ -10,7 +10,7 @@ const comment = async (req,res,next) =>{
         return res.status(400).send({success:false,message:"comment is required"})
     }
     if(comment.length > 300){
-        return res.status(413).send({success:false,message:"comment can't more than 300 words"})
+        return res.status(413).send({success:false,message:"comment can't be more than 300 words"})
     }
     //Checks if the post with the id exists
     try{
