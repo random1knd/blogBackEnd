@@ -39,14 +39,14 @@ const notified = async (req,res,next) =>{
    try{
     const notifications =await notificationSchema.find({updateFor:req.body.user.name})
     if(notifications == []){
-        return res.status(200).send({success:true,message:"not notifications here"})
+        return res.status(200).send({success:true,message:"no notifications here"})
     } 
     
-    res.status(200).send(notifications)
+    res.status(200).send({success:true,message:"notifications",result:notifications})
     await notificationSchema.deleteMany({updateFor:req.body.user.name})
 }catch(err){
     console.log(err)
-    return res.status(403).send("something went wrong")
+    return res.status(403).send({success:false,message:"something went wrong"})
 }
 }
 

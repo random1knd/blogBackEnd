@@ -128,9 +128,9 @@ const comments = async (req,res,next) =>{
         }
         const comments = await commentSchema.find({blogId:req.body.blogId})
         if(comments.length == 0){
-            return res.status(404).send({success:false,message:"No comments found"})
+            return res.status(404).send({success:true,message:"No comments found"})
         }
-        return res.status(200).send({success:true,message:comments})
+        return res.status(200).send({success:true,message:"comments",result:comments})
     }
     catch(err){
         console.log(err)

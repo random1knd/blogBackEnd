@@ -115,3 +115,36 @@
    * }
    * 
    */ 
+
+
+
+/**
+ * @api {post} /comments API to fetch comments linked to a post
+ * @apiName comments
+ * @apiGroup Comments
+ * @apiBody {String} blogId id of the blog
+ * @apiError requestBodyInvalid This error occurs when the blogId is not provided
+ * @apiErrorExample {json} requestBodyInvalidError-Response:
+ * {
+ * success:false,
+ * message:"request body invalid"
+ * }
+ * @apiError DatabaseError This error occurs if something goes wrong at the database retrival
+ * @apiErrorExample {json} DataBaseErrr-Response:
+ * {
+ * success:false,
+ * message:"something went wrong make sure the id is right"
+ * }
+ * @apiSuccessExample {json} NoCommentsFoundSuccess-Response:
+ * {
+ * success:true,
+ * message:"No comments found"
+ * }
+ * @apiSuccessExample {json} commentsSuccess-Response:
+ * {
+ * success:true,
+ * message:"comments"
+ * }
+ * 
+ * 
+ */ 

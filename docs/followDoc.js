@@ -35,4 +35,34 @@
  */ 
 
 
- 
+ /**
+  * @api {post} /notifications API to fetch posts by followed users
+  * @apiName notified
+  * @apiGroup Follow
+  * @apiHeader {String} accessToken users unique accessToken required
+  * @apiHeaderExample {json} AuthorizationHeader-Example:
+  * {
+  * "Authorization":`bearer ${String}`
+  * }
+  * @apiError DatabaseError This occurs if something goes wrong with database saving or deleting
+  * @apiErrorExample {json} DataBaseError-Response:
+  * {
+  * success:false,
+  * message:"something went wrong"
+  * }
+  * 
+  * 
+  * @apiSuccessExample {json} NoNotificationsHereSuccess-Response:
+  * {
+  * success:true,
+  * message:"no notifications here"
+  * }
+  * @apiSuccessExample {json} NotificationsSuccess-Response:
+  * {
+  * success:true,
+  * message:"notifications"
+  * }
+  * 
+  * 
+  * 
+  */ 

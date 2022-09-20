@@ -116,7 +116,7 @@ const postUpdate = async (req,res,next) => {
         post.blogData = blogData
         post.title = title
         post.description = description
-        
+
         await post.save()
         console.log(post)
         return res.status(200).send({success:true,message:"post updated successfully"})
@@ -130,11 +130,16 @@ const postUpdate = async (req,res,next) => {
 }
 
 const getPosts = async (req,res,next) =>{
+    try{
     const posts = await blog.find({status:"Approved"})
     if(posts.length == 0){
-        return res.status(404).send({success:false,message:"posts not found"})
+        return res.status(404).send({success:true,message:"posts not found"})
     }
-    res.status(200).send({success:true,message:posts})
+    res.status(200).send({success:true,message:"posts",result:posts})
+}catch(err){
+    console.log(err)
+    return res.status(400).send({success:false,message:"something went wrong"})
+}
 }
 
 const getSinglePost = async (req,res,next) =>{
@@ -144,9 +149,12 @@ const getSinglePost = async (req,res,next) =>{
     }
     try{
     const post = await blog.findById({_id:req.params.id})
+    if(post == null){
+        return res.status(404).send({success:false,message:"post not found"})
+    }
     const something = "value"
     
-    return res.status(200).send({success:true,message:post})
+    return res.status(200).send({success:true,message:"post",result:post})
     }catch(err){
         return res.status(400).send({success:true,message:"something went wrong make sure the id is right"})
         console.log(err)

@@ -97,7 +97,7 @@ const likes = async (req,res,next) =>{
         values.forEach(values=>{
             count++
         }) 
-        return res.status(200).send(count)
+        return res.status(200).send({success:true,message:"likes",result:count})
 
     }catch(err){
         console.log()

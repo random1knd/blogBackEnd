@@ -2,6 +2,7 @@ const blogSchema = require('../schema/blogSchema')
 
 const getPostsAdmin = async (req,res,next) =>{
     //Checks if the user is admin or not 
+    try{
     if(req.body.user.role != "admin"){
         return res.status(403).send({success:false,message:"Not authorized"})
 
@@ -14,7 +15,11 @@ const getPostsAdmin = async (req,res,next) =>{
     }
 
     //If posts found sends them
-    return res.status(200).send({success:true,message:posts})
+    return res.status(200).send({success:true,result:posts,message:"posts"})
+}catch(err){
+    console.log(err)
+    return res.status(400).send({success:false,message:"something went wrong"})
+}
 }
 
 const approve = async (req,res,next) =>{

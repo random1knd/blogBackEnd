@@ -167,3 +167,64 @@
    * }
    * 
    */ 
+
+
+/**
+ * @api {get} /post API to fetch all the posts
+ * @apiName getPosts
+ * @apiGroup Blog
+ * @apiError DataBaseError This error occurs when something goes wrong with database retrival
+ * @apiErrorExample {json} DataBaseError-Response:
+ * {
+ * success:false,
+ * message:"something went wrong"
+ * }
+ * @apiSuccessExample {json} postsSuccess-Response:
+ * {
+ * success:true,
+ * message:"posts"
+ * }
+ * @apiSuccessExample {json} postsNotFoundSuccess-Response:
+ * {
+ * success:true,
+ * message:"posts not found"
+ * 
+ * }
+ * 
+ * 
+ * 
+ * 
+ */  
+
+
+/**
+ * @api {get} /post/:id
+ * @apiName getSinglePost
+ * @apiGroup Blog
+ * @apiParam {String} id id of the post
+ * @apiError InvalidRequestBody This error occurs when blogid is not provided
+ * @apiErrorExample {json} InvalidRequestBodyError-Response:
+ * {
+ * success:false,
+ * message:"Invalid request body"
+ * }
+ * @apiError PostNotFound This error occurs when no post is present on given post id 
+ * @apiErrorExample {json} PostNotFoundError-Response:
+ * {
+ * success:false,
+ * message:"post not found"
+ * }
+ * @apiError DatabaseError This error occurs when something goes wrong with the db or if the id given is not right
+ * @apiErrorExample {json} DatabaseError-Response:
+ * {
+ * success:false,
+ * message:"something went wrong make sure the id is right"
+ * }
+ * @apiSuccessExample {json} postSuccess-Response:
+ * {
+ * success:true,
+ * message:"post",
+ * result:[]
+ * }
+ * 
+ */
