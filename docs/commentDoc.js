@@ -65,7 +65,7 @@
   * message:"Request body Invalid"
   * } 
   * @apiError RequestBodyInvalid This error will occur when comment body is not provided
-  * @apiErrorExample: {json} RequestBodyInvalidError-Response:
+  * @apiErrorExample {json} RequestBodyInvalidError-Response:
   * {
   * success:false,
   * message:"Request body Invalid"
