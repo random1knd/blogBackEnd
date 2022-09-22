@@ -6,11 +6,11 @@ const baseurl = "http://localhost:5000";
 /*rahul*/const token1= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmFodWwiLCJyb2xlIjoidXNlciIsImlhdCI6MTY2MzU2MjE0MX0.b9MJRyQuyINxDcdAxWOqoQ9N3DqAOH9FDnOtzYVHGXc'
 
 
-
+//To approve a post
 describe("reqeust body invalid",()=>{
     describe("post not authorized",()=>{
         describe("post not found",()=>{
-
+            //Throws error if blogId is not provdied 
             it("request body invalid",(done)=>{
                 const payload = {blogId:""};
                 const headers = {"Authorization":`bearer ${token1}`};
@@ -21,7 +21,7 @@ describe("reqeust body invalid",()=>{
                 });
             });
 
-
+            //throws 404 error if blog id is not found
             it("post not found",(done)=>{
                 const payload = {blogId:"63281e0bbc9d2c0790b80ddb"};
                 const headers = {"Authorization":`bearer ${token}`};
@@ -32,7 +32,7 @@ describe("reqeust body invalid",()=>{
                 });
             });
 
-
+            //Throws 403 not authorized error if the user who is trying to approve is not an admin
             it("not authorized",(done)=>{
                 const payload = {blogId:"63281e0bbc9d2c0790b80ddb"};
                 const headers = {"Authorization":`bearer ${token1}`};
@@ -43,7 +43,7 @@ describe("reqeust body invalid",()=>{
                 });
             });
 
-
+            //if the all credentials are right and the user also admin privilages post get's approved
             it("post approved successfully",(done)=>{
                 const payload = {blogId:"6327fb03c2474fe9ff962570"};
                 const headers = {"Authorization":`bearer ${token}`};
@@ -61,10 +61,10 @@ describe("reqeust body invalid",()=>{
 });
 
 
-
+//To fetch posts which are pending
 describe("posts not found",()=>{
     describe("not authorized",()=>{
-
+        //Throws 403 not authorized error if the user who doesn't admin privilages tries to fetch pending posts
         it("not authorized",(done)=>{
             const headers = {'Authorization':`bearer ${token1}`};
             request.post({url:`${baseurl}/adminPosts`,headers},(_,response)=>{
@@ -78,7 +78,7 @@ describe("posts not found",()=>{
         });
 
 
-        
+        //fetches pending posts if the party has role as admin
         it("pending posts",(done)=>{
             const headers = {'Authorization':`bearer ${token}`};
             request.post({url:`${baseurl}/adminPosts`,headers},(_,response)=>{

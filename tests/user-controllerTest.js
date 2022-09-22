@@ -4,11 +4,11 @@ const { response, json } = require('express');
 const request = require('request')
 const baseurl = "http://localhost:5000"
 
-
+//To register new user
 describe("user controller check",()=>{
     describe("user registration check",()=>{
         describe("validation check",()=>{
-            
+            //Throws error if username is missing
             it("user name missing return 400",(done)=>{
                 const payload = {user:"",password:"dikshith123",email:"dikshith@123",description:"this is about me"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
@@ -17,7 +17,7 @@ describe("user controller check",()=>{
                 });
             });
 
-
+            //Throws error if email is missing
             it("email  missing return 400",(done)=>{
                 const payload = {user:"dikshith",password:"dikshith123",email:"",description:"this is about me"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
@@ -25,7 +25,7 @@ describe("user controller check",()=>{
                     done();
                 });
             });
-
+            //Throws error if description is missing
             it("description name missing return 400",(done)=>{
                 const payload = {user:"",password:"dikshith123",email:"dikshith@123",description:""};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
@@ -34,7 +34,8 @@ describe("user controller check",()=>{
                 });
             });
 
-            it("password name missing return 400",(done)=>{
+            //Throws error if password is missing
+            it("password  missing return 400",(done)=>{
                 const payload = {user:"dikshith",password:"",email:"dikshith@123",description:"this is about me"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
                     expect(response.statusCode).to.equal(400);
@@ -42,7 +43,8 @@ describe("user controller check",()=>{
                 });
             });
 
-            it("password missing expected password is requried",(done)=>{
+
+            it("if password is less than 7 characters",(done)=>{
                 const payload = {user:"dikshith",description:"somedescription",email:"dikshith@123"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
                 //console.log(response.body)
@@ -54,8 +56,8 @@ describe("user controller check",()=>{
             });
 
          
-            
-            it("password missing expected password is requried",(done)=>{
+            //Throws error if description is missing
+            it("description is missing",(done)=>{
                 const payload = {user:"dikshith",password:"password123",description:"",email:"dikshith@123"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
                 //console.log(response.body)
@@ -66,8 +68,8 @@ describe("user controller check",()=>{
                 });
             });
 
-            
-            it("password missing expected password is requried",(done)=>{
+            //Throws error if email is missing
+            it("email missing email is requried",(done)=>{
                 const payload = {user:"dikshith",password:"password123",description:"somedescription",email:""};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
                 //console.log(response.body)
@@ -83,11 +85,11 @@ describe("user controller check",()=>{
 });
 
 
-
+//To login
 describe("user login test",()=>{
     describe("username or password missing",()=>{
         describe("username not present or password is wrong",()=>{
-            
+            //Throws error is username is missing
             it("username missing",(done)=>{
                 const payload = {user:"",password:"password123"};
                 request.post(`${baseurl}/login`,{json:payload},(_,response)=>{
@@ -101,7 +103,7 @@ describe("user login test",()=>{
                 });
             });
 
-
+            //Throws if password is missing
             it("password missing",(done)=>{
                 const payload = {user:"dikshith",password:""};
                 request.post(`${baseurl}/login`,{json:payload},(_,response)=>{
@@ -114,8 +116,8 @@ describe("user login test",()=>{
                 });
             });
 
-
-            it("password missing",(done)=>{
+            //Throws error if password does not match 
+            it("password doesnot match",(done)=>{
                 const payload = {user:"dikshith",password:"asdfsadf"};
                 request.post(`${baseurl}/login`,{json:payload},(_,response)=>{
                 //console.log(response.body)
@@ -127,8 +129,8 @@ describe("user login test",()=>{
                 });
             });
 
-
-            it("password missing",(done)=>{
+            //If all the credentials are right 
+            it("logged in",(done)=>{
                 const payload = {user:"dikshith",password:"dikshith123"};
                 request.post(`${baseurl}/login`,{json:payload},(_,response)=>{
                 //console.log(response.body)

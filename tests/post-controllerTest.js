@@ -9,8 +9,10 @@ const baseurl = "http://localhost:5000";
 //REPLACE THE POST DELETE BEFORE RUNNING 
 const postDelete = '632804b6d32551e582c82985';
 
+
+//To post a post 
 describe("fields missing",()=>{
-    
+    //Throws error if the post title is missing
    it("title is missing",(done)=>{
         const payload = {title:"",description:"this is about the blog",blogData:"this is the main thing"};
         const headers = {'Authorization':`bearer ${token}`};
@@ -21,8 +23,8 @@ describe("fields missing",()=>{
         });
    });
 
-
-   it("title is missing",(done)=>{
+   //Throws error if description is missing
+   it("description is missing",(done)=>{
     const payload = {title:"this is the titlee",description:"",blogData:"this is the main thing"};
     const headers = {'Authorization':`bearer ${token}`};
     request.post({url:`${baseurl}/post`,headers,json:payload},(_,response)=>{
@@ -32,8 +34,8 @@ describe("fields missing",()=>{
     });
 });
 
-
-it("title is missing",(done)=>{
+//Throws error if the in blog body is missing
+it("blog information is missing",(done)=>{
     const payload = {title:"this is the title",description:"this is about the blog",blogData:""};
     const headers = {'Authorization':`bearer ${token}`};
     request.post({url:`${baseurl}/post`,headers,json:payload},(_,response)=>{
@@ -44,8 +46,8 @@ it("title is missing",(done)=>{
 });
 
 
-
-it("title is missing",(done)=>{
+//If all the credentials are present new post get's created
+it("new post created",(done)=>{
     const payload = {title:"title of the post",description:"this is about the blog",blogData:"this is the main thing"};
     const headers = {'Authorization':`bearer ${token}`};
     request.post({url:`${baseurl}/post`,headers,json:payload},(_,response)=>{
@@ -57,12 +59,12 @@ it("title is missing",(done)=>{
     
 });
 
-//To update
+//To update the post
 describe("blog id is missing",()=>{
     describe("post not found with the given id ",()=>{
         describe("given id is wrong make sure it is right ",()=>{
             describe("not authorized",()=>{
-                
+                //Throws error if blogs unique id is not sent
                 it("blog id is missing",(done)=>{
                 const payload = {title:"new title",description:"this has been updated once",blogData:"main information updated",blogId:''};
                 const headers = {'Authorization':`bearer ${token}`};
@@ -73,7 +75,7 @@ describe("blog id is missing",()=>{
                 });
                 });
 
-
+                //Throws error id the given id is not present in the db
                 it("post not found",(done)=>{
                     const payload = {title:"new title",description:"this has been updated once",blogData:"main information updated",blogId:'6327fb03c2474fe9ff962510'};
                     const headers = {'Authorization':`bearer ${token}`};
@@ -95,7 +97,7 @@ describe("blog id is missing",()=>{
                         });
                         });
 
-
+                        //throws error if the user trying to update the post is not the same person who made the post
                         it("not authorized",(done)=>{
                             const payload = {title:"new title",description:"this has been updated once",blogData:"main information updated",blogId:'6327fb03c2474fe9ff962570'};
                             const headers = {'Authorization':`bearer ${token}`};
@@ -106,7 +108,7 @@ describe("blog id is missing",()=>{
                             });
                             });
 
-
+                            //if all the credentials are present and the user logic satifies , post successfully get's updated
                             it("post updated successfully",(done)=>{
                                 const payload = {title:"new title",description:"this has been updated once",blogData:"main information updated",blogId:'6327fb03c2474fe9ff962570'};
                                 const headers = {'Authorization':`bearer ${token1}`};
@@ -134,7 +136,7 @@ describe("post delete",()=>{
         describe("something wrong with the given id ",()=>{
             describe("not authorized",()=>{
 
-
+                //Throws error if blog id is not present
                  it("request body not valid",(done)=>{
                     const payload =  {blogId:""};
                     const headers = {'Authorization':`bearer ${token1}`};
@@ -147,7 +149,7 @@ describe("post delete",()=>{
                 });
 
 
-
+                //If error occurs at mongodb throws error
                 it("something wrong with the id",(done)=>{
                     const payload =  {blogId:"6327fb03c2474fe9ff962"};
                     const headers = {'Authorization':`bearer ${token1}`};
@@ -206,7 +208,7 @@ describe("post delete",()=>{
     });
 });
 
-
+//fetches approved posts
 describe("get approved posts",()=>{
     it("approved posts",(done)=>{
         request.get({url:`${baseurl}/getPosts`},(_response)=>{
