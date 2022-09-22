@@ -1,6 +1,8 @@
 const followSchema = require('../schema/followSchema')
 const notificationSchema = require('../schema/notificationSchema')
 const userSchema = require('../schema/userSchema')
+
+//function to follow a user -- checks if the user is already following the user if not pushes to the follow collection as followedBy:followed, if already exists in  followed deletes from the follow collection(unfollows)
 const follower = async (req,res,next) =>{
     if(!req.body.follow){
         return res.status(400).send({success:false,message:"Invalid request body"})

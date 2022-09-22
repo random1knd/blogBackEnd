@@ -38,7 +38,7 @@ async function createNewToken(req,res,next){
     
     jwt.verify(refreshToken,process.env.REFRESH_TOKEN,(err,user)=>{
         if (err) return res.send("not authentic token")
-        const newAccessToken = generateAccessToken({name:user.name})
+        const newAccessToken = generateAccessToken({name:user.name,role:user.role})
         res.send(newAccessToken)
         next()
     })

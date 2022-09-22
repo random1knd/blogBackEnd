@@ -1,7 +1,7 @@
 const blog = require('../schema/blogSchema')
 const commentsDelete  = require('../controllers/comment-controller')
 
-
+//function to post a post 
 const post = async (req,res,next) =>{
     
     const {title,description,blogData}  =req.body
@@ -36,7 +36,7 @@ const post = async (req,res,next) =>{
 
 
 
-
+//To delete a post -- /post endpoint with delete as method -- last part of the middleware 
 const postDelete = async (req,res,next) =>{
    //console.log("lets see if this is working")
     try{
@@ -79,6 +79,7 @@ const postDelete = async (req,res,next) =>{
     
 }
 
+//To update the post
 const postUpdate = async (req,res,next) => {
     //console.log("let's see if this is working postUpdate")
     try{
@@ -129,6 +130,7 @@ const postUpdate = async (req,res,next) => {
     next()
 }
 
+//To get posts for the home page , get's all the posts which are marked approved
 const getPosts = async (req,res,next) =>{
     try{
     const posts = await blog.find({status:"Approved"})
@@ -142,6 +144,8 @@ const getPosts = async (req,res,next) =>{
 }
 }
 
+
+//To get single post -- used for reading  as single articles combined with comments and likes -- or can be used for update page to edit the contents
 const getSinglePost = async (req,res,next) =>{
     // console.log("lets see if this is working")
     if(!req.params.id){

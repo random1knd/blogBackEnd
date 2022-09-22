@@ -77,6 +77,7 @@ const login = async (req,res,next) =>{
 }
 
 // this user argument contains {name:"",role:""}
+//Generates access token
 function generateAccessToken(user){
     return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:'60m'})
 }

@@ -2,6 +2,8 @@ const likeSchema = require('../schema/likeSchema')
 const comment = require('../schema/commentSchema')
 const commentSchema = require('../schema/commentSchema')
 const blogSchema = require('../schema/blogSchema')
+
+//function to like an object in this case comment -- checks if the comment has like from the user if not adds to it , if yes removes it
 const liker = async (req,res,next) =>{
 
     try{
@@ -35,6 +37,7 @@ catch(err){
     
 }
 
+// middleware function which deletes likes when deleting the post 
 const likesDelete = async (req,res,next) =>{
     if(!req.body.blogId){
         return res.status(400).send({success:false,message:"Invalid request"})
@@ -70,6 +73,8 @@ const likesDelete = async (req,res,next) =>{
    next()
 }
 
+
+//middlware function which delete likes linked to a comment when a comment is deleted
 const commentLikesDelete = async (req,res,next) =>{
     try{
         if(!req.body.commentId){
@@ -83,6 +88,7 @@ const commentLikesDelete = async (req,res,next) =>{
     next()
 }
 
+//function to fetch likes as a number linked to a comment
 const likes = async (req,res,next) =>{
     try{
         if(!req.body.commentId){

@@ -1,6 +1,8 @@
 
 const blogSchema = require('../schema/blogSchema')
 const commentSchema = require('../schema/commentSchema')
+
+//function to post comments on a blog
 const comment = async (req,res,next) =>{
     const {blogId,comment} = req.body
     if(!blogId || blogId ==""){
@@ -44,6 +46,8 @@ const comment = async (req,res,next) =>{
     next()
 }
 
+
+//function to delete a individual comment
 const commentDelete = async (req,res,next) =>{
     console.log("this is comment deleter")
     if(!req.body.commentId){
@@ -69,6 +73,9 @@ const commentDelete = async (req,res,next) =>{
 
 }
 
+
+
+//function to update a comment
 const commentUpdate = async (req,res,next) =>{
     
     console.log("this is comment updater")
@@ -106,7 +113,7 @@ const commentUpdate = async (req,res,next) =>{
     return res.status(200).send({success:true,message:"comment successfully updated"})
 }
 
-
+//middleware function to delete comments linked to a post when a post is deleted
 const commentsDelete = async (req,res,next) =>{
     
     try{
