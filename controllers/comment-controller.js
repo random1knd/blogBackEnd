@@ -49,11 +49,13 @@ const comment = async (req,res,next) =>{
 
 //function to delete a individual comment
 const commentDelete = async (req,res,next) =>{
-    console.log("this is comment deleter")
+   // console.log("this is comment deleter")
+    try{
+       
     if(!req.body.commentId){
         return res.status(400).send({success:false,message:"Invalid request body"})
     }
-    try{
+
     const comment =await commentSchema.findOne({_id:req.body.commentId})
     if(comment ===null){
         return res.status(400).send({success:false,message:"comment  not found"})
@@ -64,12 +66,14 @@ const commentDelete = async (req,res,next) =>{
         return res.status(403).send({seccuess:false,message:"Not authorized"})
     }
 
+    await commentSchema.deleteOne({_id:req.body.commentId})
+    return res.status(200).send({success:true,message:"comment successfully deleted"})
+
     }catch(err){
         return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
     }
    
-    await commentSchema.deleteOne({_id:req.body.commentId})
-    return res.status(200).send({success:true,message:"comment successfully deleted"})
+    
 
 }
 
@@ -78,7 +82,8 @@ const commentDelete = async (req,res,next) =>{
 //function to update a comment
 const commentUpdate = async (req,res,next) =>{
     
-    console.log("this is comment updater")
+    try{
+    //console.log("this is comment updater")
     if(!req.body.commentId){
         return res.status(400).send({success:false,message:"Request body Invalid"})
     }
@@ -86,7 +91,6 @@ const commentUpdate = async (req,res,next) =>{
     if(value == "" || value > 300){
         return res.status(413).send({success:false,message:"comment can't be lesser than 1 words and greater than 300 words"})
     }
-    try{
     const comment =await commentSchema.findOne({_id:req.body.commentId})
 
     
@@ -100,17 +104,19 @@ const commentUpdate = async (req,res,next) =>{
         return res.status(403).send({success:false,message:"Not authorized"})
     }
 
-    }catch(err){
-    
-        return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
-     
-    }
     const commentUpdate = await commentSchema.findOne({_id:req.body.commentId})
   
     commentUpdate.comment = req.body.comment
     await commentUpdate.save()
     
     return res.status(200).send({success:true,message:"comment successfully updated"})
+
+    }catch(err){
+    
+        return res.status(400).send({success:false,message:"something went wrong make sure the id is right"})
+     
+    }
+
 }
 
 //middleware function to delete comments linked to a post when a post is deleted

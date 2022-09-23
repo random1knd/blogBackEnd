@@ -121,7 +121,12 @@
   * {
   * success:false,
   * message:"post not found"
-  * 
+  * }
+  * @apiError NotAuthorized This error will occur when the user who is trying to udpate the post is not the same who created the post 
+  * @apiErrorExample {json} NotAuthorizedError-Example:
+  * {
+  * success:false,
+  * message:"Not Authorized"
   * }
   * @apiSuccessExample: {json}	postUpdateSuccessfullySuccess-Response:
   * {
@@ -157,7 +162,12 @@
    * {
    * success:false,
    * message:"post not found"
-   * 
+   * }
+   * @apiError NotAuthorized This error occurs when the user trying to delete the post is not the same who created the post
+   * @apiError {json} NotAuthorizedError-Response:
+   * {
+   * sucess:false,
+   * message:"Not Authorized"
    * }
    * @apiSuccessExample {json} postDeleteSuccessfullySuccess-Response:
    * {

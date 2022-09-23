@@ -80,6 +80,32 @@ describe("user controller check",()=>{
                 });
             });
 
+            //Throws error if the password is less then 7 characters
+            it("password is less then 7 characers",(done)=>{
+                const payload = {user:"random1knd",password:"123",email:"ranodm@email.com",description:"this is a description"};
+                request.post({url:`${baseurl}/register`,json:payload},(_,response)=>{
+                expect(response.statusCode).to.equal(400);
+                expect(response.body.message).to.equal("password is required and with the right length min 7 characters");
+                done();    
+
+                });
+
+            });
+
+            //remove comments when username and email are replaced
+            // it("user created",(done)=>{
+            //     const payload = {user:"random1knd",password:"12345678",email:"ranodm@email.com",description:"this is a description"};
+            //     request.post({url:`${baseurl}/register`,json:payload},(_,response)=>{
+            //     expect(response.statusCode).to.equal(201);
+            //     expect(response.body.message).to.equal("user has been created");
+            //     done();    
+
+            //     });
+
+            // });
+
+
+
         });
     });
 });

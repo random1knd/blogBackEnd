@@ -5,6 +5,13 @@ const jwt = require('jsonwebtoken')
 const tokenSchema = require('../schema/tokenSchema')
 const {secretKeySchema} = require('../schema/secretKeysSchema')
 
+
+//resgiser -- requires user, passwrod, description, email from body
+//Throws error if either of them are missing
+//Throws error if the username already exists
+//Throws error if the email already exists
+//Throws error if the email is not valid
+//Throws error if the password length is not more than 7 words 
 const register = async (req,res,next) =>{
     try{
     const { user, password,description,email} = req.body
@@ -36,14 +43,17 @@ const register = async (req,res,next) =>{
     }
     const userSave = new userSchema(details)
     await userSave.save()
+    return res.status(201).send({success:true,message:"user has been created"})
 }catch(err){
     console.log(err)
     return res.status(400).send({success:false,message:"user could not be created try changing the user name and make sure your email id is proper"})
 }
-return res.status(201).send({success:true,message:"user has been created"})
 
 }
-
+//login -- requires user and password from body throws error if either of them not found
+//throws error if credentials are present but username is not found in the db
+//Throws error if the username exsits but password doesn't match
+//Sends access and refresh token when username and password matches 
 const login = async (req,res,next) =>{
     if(!req.body.user || !req.body.password){
         return res.status(400).send({success:false,message:"both username and password are required"})
@@ -90,7 +100,7 @@ function generateAccessToken(user){
 
 
 async function logout(req,res,next){
-    const value = await jwt.sign(req.body.user.name,process.env.REFRESH_TOKEN)
+    const value =  jwt.sign(req.body.user.name,process.env.REFRESH_TOKEN)
     console.log(value)
     await tokenSchema.deleteMany({token:value})
     return res.status(200).send("successfully loggedout")

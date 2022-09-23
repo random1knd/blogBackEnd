@@ -76,6 +76,13 @@
   * success:false,
   * message:"comment not found"
   * }
+  * @apiError NotAuthorized This error will occur if the user who is trying to update the comment is not the same who posted it
+  * @apiErrorExample {json} NotAuthorizedError-Response:
+  * {
+  * success:false,
+  * message:"Not Authorized"
+  * }
+  * 
   * @apiSucessExample {json} commentSuccessFullyUpdateSuccess-Response:
   * {
   * success:true,
@@ -107,6 +114,12 @@
    * {
    * success:false,
    * message:"comment not found"
+   * }
+   * @apiError NotAuthoirzed This error will occur when the user deleting the post which was not created by him 
+   * @apiErrorExample {json} NoAuthorizedError-Response:
+   * {
+   * sucess:false,
+   * message:"Not Authorized"
    * }
    * @apiSuccessExample {json} commentSuccessfullyDeleteSuccess-Response:
    * {
