@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const{generateAccessToken} = require('./user-controller')
 
-
+//To verify access token
 async function authenticateToken(req,res,next){
     const authHeader = req.headers['authorization']
     
@@ -27,7 +27,7 @@ async function authenticateToken(req,res,next){
     
 }
 
-
+//Rerfresh token 
 async function createNewToken(req,res,next){
     
     const refreshToken = req.body.token
