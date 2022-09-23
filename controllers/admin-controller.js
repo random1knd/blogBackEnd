@@ -8,7 +8,7 @@ const getPostsAdmin = async (req,res,next) =>{
 
     }
     //Check for all the posts which are pending
-    const posts = await blogSchema.find({staus:"Pending"})
+    const posts = await blogSchema.find({status:"Pending"})
     if(posts.length ==0){
         //If no posts are found
         return res.status(200).send({success:true,message:"No posts are pending"})
@@ -24,6 +24,7 @@ const getPostsAdmin = async (req,res,next) =>{
 
 const approve = async (req,res,next) =>{
     //To check if the blogId has been provided and it it is empty
+    try{
     if(!req.body.blogId || req.body.blogId ==""){
         //return Invalid request body if the condition satisfies
         return res.status(400).send({success:false,message:"Invalid request body"})
@@ -34,7 +35,7 @@ const approve = async (req,res,next) =>{
         return res.status(403).send({success:false,message:"Not authorized"})
 
     }
-    try{
+    
         //Finds if the post with the given blogId exists or not
         const post =await blogSchema.findOne({_id:req.body.blogId})
         if(post == null){
