@@ -29,7 +29,7 @@ const post = async (req,res,next) =>{
     const backend = new blog(data)
     await backend.save()
     
-    console.log("this is the middle ware for the blog post ")
+    //console.log("this is the middle ware for the blog post ")
     res.status(201).send({success:true,message:"new post has been created"})
     next()
 } 
@@ -51,8 +51,8 @@ const postDelete = async (req,res,next) =>{
         if(postCreator == null){
             return res.status(400).send({success:false,message:"post not found"})
         }
-        console.log(postCreator.createdBy)
-        console.log(req.body.user.name)
+        //console.log(postCreator.createdBy)
+        //console.log(req.body.user.name)
         if(postCreator.createdBy != req.body.user.name)
         {
             return res.status(403).send({success:false,message:"not authorized"})
@@ -62,8 +62,8 @@ const postDelete = async (req,res,next) =>{
         
         
         if(await blog.deleteOne({_id:req.body.blogId})){
-        console.log("error occuers after this")
-        console.log("deleted the post")
+        //console.log("error occuers after this")
+        //console.log("deleted the post")
         return res.status(200).send({success:true,message:"post deleted successfully"})
     }
         //return res.status(200).send({success:true,message:"succefully deleted the post"})
@@ -95,7 +95,7 @@ const postUpdate = async (req,res,next) => {
         if(post == null){
             return res.status(404).send({success:false,message:"post not found"})
         }
-        console.log(post.title)
+        //console.log(post.title)
        
         if(post.createdBy != req.body.user.name){
             return res.status(403).send({success:false,message:"not authorized"})
@@ -119,7 +119,7 @@ const postUpdate = async (req,res,next) => {
         post.description = description
 
         await post.save()
-        console.log(post)
+        //console.log(post)
         return res.status(200).send({success:true,message:"post updated successfully"})
     }catch(err){
         console.log(err)

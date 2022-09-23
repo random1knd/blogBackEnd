@@ -101,7 +101,7 @@ function generateAccessToken(user){
 
 async function logout(req,res,next){
     const value =  jwt.sign(req.body.user.name,process.env.REFRESH_TOKEN)
-    console.log(value)
+    //console.log(value)
     await tokenSchema.deleteMany({token:value})
     return res.status(200).send("successfully loggedout")
     next()

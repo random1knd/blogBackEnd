@@ -58,10 +58,10 @@ const likesDelete = async (req,res,next) =>{
     if(comments.length ==0){
         return next()
     }
-    console.log("this won't show up ")
-    console.log(comments)
+    //console.log("this won't show up ")
+    //console.log(comments)
     comments.forEach(c=>{
-        console.log(c._id)
+        //console.log(c._id)
     })
     comments.forEach(async c =>{
         await likeSchema.deleteMany({object:c._id})
@@ -96,7 +96,7 @@ const likes = async (req,res,next) =>{
         }
       
         const values =await likeSchema.find({object:req.body.commentId})
-        console.log(values.length,values)
+        //console.log(values.length,values)
         if(values.length == 0){
             return res.status(404).send({success:false,message:"object not found"})
         }
