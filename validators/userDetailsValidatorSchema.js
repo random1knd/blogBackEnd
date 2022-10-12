@@ -33,4 +33,10 @@ const registerSchema = Joi.object({
 
 })
 
-module.exports = {registerSchema}
+
+const loginSchema = Joi.object({
+    user:Joi.string().required(),
+    password:Joi.string().required()
+})
+
+module.exports = {registerSchema,loginSchema}

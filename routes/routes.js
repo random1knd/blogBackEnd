@@ -7,13 +7,13 @@ const {liker,likesDelete,commentLikesDelete,likes} = require('../controllers/lik
 const { follower, notification ,notified} = require('../controllers/follow-controller')
 const { authenticateToken ,createNewToken } = require('../controllers/jwt-controller')
 const { getPostsAdmin, approve } = require('../controllers/admin-controller')
-const {registerValidate} = require('../validationLayer/userDetailsvalidaton')
-
+const {registerValidate,loginValidate} = require('../validationLayer/userDetailsvalidaton')
+const {postValidate} = require('../validationLayer/postDetailsValidator')
 //To REGISTER user
 router.post('/register',registerValidate,register)
 
 
-router.post('/login',login,(req,res)=>{
+router.post('/login',loginValidate,login,(req,res)=>{
     console.log("after going through login")
     
    
@@ -24,7 +24,7 @@ router.post('/logout',authenticateToken,logout)
 
 //Start of post section
 //To POST a post
-router.post('/post',authenticateToken,post,notification)
+router.post('/post',postValidate,authenticateToken,post,notification)
 //Fetch posts for admin which are pending
 router.post('/adminPosts',authenticateToken,getPostsAdmin)
 //To APPROVE the post

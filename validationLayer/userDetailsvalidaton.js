@@ -1,5 +1,5 @@
 const Joi = require('joi')
-const {registerSchema} = require('../validators/userDetailsValidatorSchema')
+const {registerSchema, loginSchema} = require('../validators/userDetailsValidatorSchema')
 
 // async function registerValidate(req,res,next){
 //     registerSchema.validateAsync()
@@ -13,7 +13,16 @@ const registerValidate = async(req,res,next)=>{
         return res.status(422).send({success:false,message:err.message})
         
     }
+    next()
 
 }
 
-module.exports = {registerValidate}
+const loginValidate = async (req,res,next)=>{
+    try{
+        await loginSchema.validateAsync(req.body)
+    }catch(err){
+        return res.status(422).send({success:false,message:err.message})
+    }
+}
+
+module.exports = {registerValidate,loginValidate}
