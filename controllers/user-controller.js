@@ -38,7 +38,7 @@ const register = async (req,res,next) =>{
 //Throws error if the username exsits but password doesn't match
 //Sends access and refresh token when username and password matches 
 const login = async (req,res,next) =>{
-    console.log("working")
+    
     const user = req.body.user
    try{
     const value =  await userSchema.findOne({user:user})

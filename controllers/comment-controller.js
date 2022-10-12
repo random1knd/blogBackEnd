@@ -5,29 +5,8 @@ const commentSchema = require('../schema/commentSchema')
 //function to post comments on a blog
 const comment = async (req,res,next) =>{
     const {blogId,comment} = req.body
-    if(!blogId || blogId ==""){
-        return res.status(400).send({success:false,message:"blog id is required"})
-    }
-    if(!comment || comment==""){
-        return res.status(400).send({success:false,message:"comment is required"})
-    }
-    if(comment.length > 300){
-        return res.status(413).send({success:false,message:"comment can't be more than 300 words"})
-    }
-    //Checks if the post with the id exists
-    try{
-
-    const exist =await blogSchema.findOne({_id:blogId})
-    if(exist == null){
-        return res.status(400).send({success:false,message:"post not found"})
-    }
-    }
-    catch(err){
-        //Throws error if the blogId is not according to mongodb
-        console.log(err)
-
-        return res.status(400).send({success:false,message:"something went wrong"})
-    }
+  
+    
     const data = {
         blogId:blogId,
         madeBy:req.body.user.name,

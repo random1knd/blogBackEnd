@@ -48,7 +48,7 @@ describe("user controller check",()=>{
                 const payload = {user:"",description:"somedescription",email:"dikshith@123"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
                 //console.log(response.body)
-                expect(response.body.message).to.equal('\"user\" is required');
+                expect(response.body.message).to.equal('"user" is not allowed to be empty');
                 done();
 
 
@@ -56,12 +56,18 @@ describe("user controller check",()=>{
             });
 
          
+
+
+
+
+
+
             //Throws error if description is missing
             it("description is missing",(done)=>{
                 const payload = {user:"dikshith",password:"password123",description:"",email:"dikshith@123"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
                 //console.log(response.body)
-                expect(response.body.message).to.equal("description is required");
+                expect(response.body.message).to.equal('"description" is not allowed to be empty');
                 done();
 
                 
@@ -73,7 +79,7 @@ describe("user controller check",()=>{
                 const payload = {user:"dikshith",password:"password123",description:"somedescription",email:""};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
                 //console.log(response.body)
-                expect(response.body.message).to.equal("email is required");
+                expect(response.body.message).to.equal('"email" is not allowed to be empty');
                 done();
 
                 
@@ -85,7 +91,7 @@ describe("user controller check",()=>{
                 const payload = {user:"random1knd",password:"123",email:"ranodm@email.com",description:"this is a description"};
                 request.post({url:`${baseurl}/register`,json:payload},(_,response)=>{
                 expect(response.statusCode).to.equal(400);
-                expect(response.body.message).to.equal("password is required and with the right length min 7 characters");
+                expect(response.body.message).to.equal('"password" is not allowed to be empty');
                 done();    
 
                 });
@@ -111,6 +117,7 @@ describe("user controller check",()=>{
 });
 
 
+
 //To login
 describe("user login test",()=>{
     describe("username or password missing",()=>{
@@ -120,9 +127,9 @@ describe("user login test",()=>{
                 const payload = {user:"",password:"password123"};
                 request.post(`${baseurl}/login`,{json:payload},(_,response)=>{
                 //console.log(response.body)
-                expect(response.statusCode).to.equal(400);
+                expect(response.statusCode).to.equal(422);
                 
-                expect(response.body.message).to.equal("both username and password are required");
+                expect(response.body.message).to.equal('"user" is not allowed to be empty');
                 done();
 
                 
@@ -134,8 +141,8 @@ describe("user login test",()=>{
                 const payload = {user:"dikshith",password:""};
                 request.post(`${baseurl}/login`,{json:payload},(_,response)=>{
                 //console.log(response.body)
-                expect(response.statusCode).to.equal(400);
-                expect(response.body.message).to.equal("both username and password are required");
+                expect(response.statusCode).to.equal(422);
+                expect(response.body.message).to.equal('"password" is not allowed to be empty');
                 done();
 
                 
@@ -175,3 +182,4 @@ describe("user login test",()=>{
         });
     });
 });
+

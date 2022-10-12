@@ -13,7 +13,7 @@ const {likeValidate } = require('../validationLayer/likeDetailsValidator')
 const {postValidate , postUpdateValidate , postDeleteValidate} = require('../validationLayer/postDetailsValidator')
 const {commentValidate , commentUpdateValidate, commentDeleteValidate} = require('../validationLayer/commentDetailsValidator')
 
-
+const {followDetailsValidator} = require('../validationLayer/followDetailsValidator')
 
 //To REGISTER user
 router.post('/register',registerValidate,register)
@@ -86,7 +86,7 @@ router.post('/dummy',authenticateToken,(req,res)=>{
 
 //start of follower section 
 //To follow a user 
-router.post('/follow',authenticateToken,follower)
+router.post('/follow',followDetailsValidator,authenticateToken,follower)
 //End of followe section
 
 router.post('/token',createNewToken)

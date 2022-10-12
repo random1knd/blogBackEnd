@@ -4,13 +4,13 @@ const userSchema = require('../schema/userSchema')
 
 //function to follow a user -- checks if the user is already following the user if not pushes to the follow collection as followedBy:followed, if already exists in  followed deletes from the follow collection(unfollows)
 const follower = async (req,res,next) =>{
-    if(!req.body.follow){
-        return res.status(400).send({success:false,message:"Invalid request body"})
-    }
-    const user = await userSchema.findOne({user:req.body.follow})
-    if(user== null){
-        return res.status(400).send({success:false,message:"user not found"})
-    }
+    // if(!req.body.follow){
+    //     return res.status(400).send({success:false,message:"Invalid request body"})
+    // }
+    // const user = await userSchema.findOne({user:req.body.follow})
+    // if(user== null){
+    //     return res.status(400).send({success:false,message:"user not found"})
+    // }
     const value = await followSchema.findOne({followedBy:req.body.user.name,following:req.body.follow})
     console.log(value)
     if(value != null){
