@@ -7,9 +7,10 @@ const {liker,likesDelete,commentLikesDelete,likes} = require('../controllers/lik
 const { follower, notification ,notified} = require('../controllers/follow-controller')
 const { authenticateToken ,createNewToken } = require('../controllers/jwt-controller')
 const { getPostsAdmin, approve } = require('../controllers/admin-controller')
+const {registerValidate} = require('../validationLayer/userDetailsvalidaton')
 
 //To REGISTER user
-router.post('/register',register)
+router.post('/register',registerValidate,register)
 
 
 router.post('/login',login,(req,res)=>{
