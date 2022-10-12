@@ -4,15 +4,24 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "mocha 'tests/**/*.js' --recursive  --timeout 60000 --exit",
-    "start": "nodemon main.js"
+    "test": " mocha 'tests/**/*.js' --recursive  --timeout 60000 --exit",
+    "start": "nodemon main.js",
+    "coverage":"nyc --reporter=text --reporter=lcov --all npm test"
   },
+
+
+  "nyc":{
+    "include":"controllers"
+  },
+
+
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "expect": "^29.0.3",
     "nodemon": "^2.0.19",
+    "nyc": "^15.1.0",
     "request": "^2.88.2"
   },
   "dependencies": {

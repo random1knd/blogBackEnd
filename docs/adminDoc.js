@@ -14,12 +14,6 @@
  * success:false,
  * message:"something went wrong"
  * }
- * @apiError NotAuthorized This error occurs if the user role is not admin
- * @apiErrorExample {json} NotAuthorizedError-Response:
- * {
- * sucess:false,
- * message:"Not authorized"
- * }
  * @apiSuccessExample {json} PostsSuccess-Response:
  * {
  * success:true,
@@ -56,12 +50,7 @@
  * {
  * success:false,
  * message:"something went wrong make sure the id is right"
- * }
- * @apiError NotAutrhorized This error occurs when user doesnot have admin role
- * @apiErrorExample {json} NotAuthorizedError-Response:
- * {
- * success:false,
- * message:"Not authorized"
+ * 
  * }
  * @apiSuccessExample {json} PostSuccessfullyApprovedSuccess-Response:
  * {
