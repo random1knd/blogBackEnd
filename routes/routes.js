@@ -8,7 +8,7 @@ const { follower, notification ,notified} = require('../controllers/follow-contr
 const { authenticateToken ,createNewToken } = require('../controllers/jwt-controller')
 const { getPostsAdmin, approve } = require('../controllers/admin-controller')
 const {registerValidate,loginValidate} = require('../validationLayer/userDetailsvalidaton')
-const {postValidate} = require('../validationLayer/postDetailsValidator')
+const {postValidate , commentValidate , commentUpdateValidate , postUpdateValidate , postDeleteValidate ,commentDeleteValidate} = require('../validationLayer/postDetailsValidator')
 //To REGISTER user
 router.post('/register',registerValidate,register)
 
@@ -30,12 +30,12 @@ router.post('/adminPosts',authenticateToken,getPostsAdmin)
 //To APPROVE the post
 router.post('/approve',authenticateToken,approve)
 //To DELETE a post , delete comments and likes as middleware
-router.delete('/post',authenticateToken,likesDelete,commentsDelete,postDelete)
+router.delete('/post',postDeleteValidate,authenticateToken,likesDelete,commentsDelete,postDelete)
 //Delete likesDelete commentsDelete postDelete
 
 
 //To UPDATE post
-router.put('/post',authenticateToken,postUpdate)
+router.put('/post',postUpdateValidate,authenticateToken,postUpdate)
 //To get all the posts which are approved
 router.get('/post',getPosts)
 //To get single post with id 
@@ -49,15 +49,15 @@ router.get('/post/:id',authenticateToken,getSinglePost)
 router.post('/comments',comments)
 
 //To post a comment
-router.post('/comment',authenticateToken,comment)
+router.post('/comment',commentValidate,authenticateToken,comment)
 
 //TO delete a comment
-router.delete('/comment',authenticateToken,commentLikesDelete,commentDelete)
+router.delete('/comment',commentDeleteValidate,authenticateToken,commentLikesDelete,commentDelete)
 //Delete commentDelete commentLikesDelete
 
 
 //To update comment
-router.put('/comment',authenticateToken,commentUpdate)
+router.put('/comment',commentUpdateValidate,authenticateToken,commentUpdate)
 //End of comment section
 
 
