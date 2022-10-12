@@ -9,46 +9,46 @@ describe("user controller check",()=>{
     describe("user registration check",()=>{
         describe("validation check",()=>{
             //Throws error if username is missing
-            it("user name missing return 400",(done)=>{
+            it("user name missing return 422",(done)=>{
                 const payload = {user:"",password:"dikshith123",email:"dikshith@123",description:"this is about me"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
-                    expect(response.statusCode).to.equal(400);
+                    expect(response.statusCode).to.equal(422);
                     done();
                 });
             });
 
             //Throws error if email is missing
-            it("email  missing return 400",(done)=>{
+            it("email  missing return 422",(done)=>{
                 const payload = {user:"dikshith",password:"dikshith123",email:"",description:"this is about me"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
-                    expect(response.statusCode).to.equal(400);
+                    expect(response.statusCode).to.equal(422);
                     done();
                 });
             });
             //Throws error if description is missing
-            it("description name missing return 400",(done)=>{
+            it("description name missing return 422",(done)=>{
                 const payload = {user:"",password:"dikshith123",email:"dikshith@123",description:""};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
-                    expect(response.statusCode).to.equal(400);
+                    expect(response.statusCode).to.equal(422);
                     done();
                 });
             });
 
             //Throws error if password is missing
-            it("password  missing return 400",(done)=>{
+            it("password  missing return 422",(done)=>{
                 const payload = {user:"dikshith",password:"",email:"dikshith@123",description:"this is about me"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
-                    expect(response.statusCode).to.equal(400);
+                    expect(response.statusCode).to.equal(422);
                     done();
                 });
             });
 
 
-            it("if password is less than 7 characters",(done)=>{
-                const payload = {user:"dikshith",description:"somedescription",email:"dikshith@123"};
+            it("user name is missing",(done)=>{
+                const payload = {user:"",description:"somedescription",email:"dikshith@123"};
                 request.post(`${baseurl}/register`,{json:payload},(_,response)=>{
                 //console.log(response.body)
-                expect(response.body.message).to.equal("password is required and with the right length min 7 characters");
+                expect(response.body.message).to.equal('\"user\" is required');
                 done();
 
 
