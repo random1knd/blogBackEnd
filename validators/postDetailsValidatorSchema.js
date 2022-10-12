@@ -69,41 +69,5 @@ End of post validation schema
 
 
 
-/*
-##################################
-Start of comment validation schema
-##################################
-*/
 
-const commentSchema = Joi.object({
-    blogId:Joi.objectId()
-    .required(),
-    comment:Joi.string()
-    .required()
-    .min(1)
-    .max(300)
-})
-
-const commentUpdateSchema = Joi.object({
-    commentId:Joi.objectId()
-    .required(),
-
-    comment:Joi.string()
-    .required()
-    .min(1)
-    .max(300)
-})
-
-
-const commentDeleteSchema = Joi.object({
-    commentId:Joi.objectId()
-    .required()
-})
-
-/*
-################################
-End of comment validation schema
-################################
-*/
-
-module.exports = {postSchema, commentSchema , commentUpdateSchema , postUpdateSchema ,postDeleteSchema,commentDeleteSchema}
+module.exports = { postSchema ,postDeleteSchema,postUpdateSchema}

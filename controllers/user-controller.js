@@ -15,26 +15,9 @@ const {secretKeySchema} = require('../schema/secretKeysSchema')
 const register = async (req,res,next) =>{
     try{
     const { user, password,description,email} = req.body
-    if(!user || user ==""){
-        return res.status(400).send({success:false,message:'username is required'})
-        //return res.status(400).send({success:false,message:"username is required"})
-    }
-    if(!password || password.length < 7 || password==""){
-        return res.status(400).send({success:false,message:"password is required and with the right length min 7 characters"})
-    }
-    if(!description || description ==""){
-        return res.status(400).send({success:false,message:"description is required"})
-    }
-    if(!email || email ==""){
-        return res.status(400).send({success:false,message:"email is required"})
-    }
-    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if(!email.match(validRegex)){
-
-        
-        return res.status(400).send({success:false,message:"Input valid emailid"})
-    }
-    if(await userSchema.findOne({email:email})!=null){return res.status(400).send({success:false,message:"email already exists"})}
+ 
+    
+    
     const details = {
         user:user,
         password:await bcrypt.hash(password,10),
@@ -55,9 +38,7 @@ const register = async (req,res,next) =>{
 //Throws error if the username exsits but password doesn't match
 //Sends access and refresh token when username and password matches 
 const login = async (req,res,next) =>{
-    if(!req.body.user || !req.body.password){
-        return res.status(400).send({success:false,message:"both username and password are required"})
-    }
+    console.log("working")
     const user = req.body.user
    try{
     const value =  await userSchema.findOne({user:user})

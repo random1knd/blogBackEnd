@@ -27,7 +27,7 @@ const registerValidate = async(req,res,next)=>{
         return res.status(422).send({success:false,message:err.message})
         
     }
-    // next()
+     next()
 
 }
 
@@ -35,8 +35,10 @@ const loginValidate = async (req,res,next)=>{
     try{
         await loginSchema.validateAsync(req.body)
     }catch(err){
+        console.log(err)
         return res.status(422).send({success:false,message:err.message})
     }
+    next()
 }
 
 module.exports = {registerValidate,loginValidate}

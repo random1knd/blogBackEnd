@@ -8,7 +8,13 @@ const { follower, notification ,notified} = require('../controllers/follow-contr
 const { authenticateToken ,createNewToken } = require('../controllers/jwt-controller')
 const { getPostsAdmin, approve } = require('../controllers/admin-controller')
 const {registerValidate,loginValidate} = require('../validationLayer/userDetailsvalidaton')
-const {postValidate , commentValidate , commentUpdateValidate , postUpdateValidate , postDeleteValidate ,commentDeleteValidate} = require('../validationLayer/postDetailsValidator')
+
+const {likeValidate } = require('../validationLayer/likeDetailsValidator')
+const {postValidate , postUpdateValidate , postDeleteValidate} = require('../validationLayer/postDetailsValidator')
+const {commentValidate , commentUpdateValidate, commentDeleteValidate} = require('../validationLayer/commentDetailsValidator')
+
+
+
 //To REGISTER user
 router.post('/register',registerValidate,register)
 
@@ -63,7 +69,7 @@ router.put('/comment',commentUpdateValidate,authenticateToken,commentUpdate)
 
 //Start of likes section
 //To like a comment
-router.post('/like',authenticateToken,liker)
+router.post('/like',likeValidate,authenticateToken,liker)
 
 //To bring likes linked to a comment
 router.post('/likes',likes)

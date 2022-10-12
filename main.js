@@ -12,4 +12,7 @@ mongoose.connect("mongodb://localhost/blogBackend",()=>{
 })
 
 app.use('/',router)
-app.listen(5000)
+const PORT = 5000
+app.listen(PORT,()=>{
+    console.log(`serverd stareted listening on ${PORT}`)
+})
