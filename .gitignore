@@ -3,3 +3,4 @@ filesToSend
 filesToSend.zip
 backend.sublime-project
 backend.sublime-workspace
+.nyc_output
