@@ -31,16 +31,10 @@ const commentDelete = async (req,res,next) =>{
    // console.log("this is comment deleter")
     try{
        
-    if(!req.body.commentId){
-        return res.status(400).send({success:false,message:"Invalid request body"})
-    }
+   
 
     const comment =await commentSchema.findOne({_id:req.body.commentId})
-    if(comment ===null){
-        return res.status(400).send({success:false,message:"comment  not found"})
-
-
-    }
+   
     if(comment.madeBy != req.body.user.name){
         return res.status(403).send({seccuess:false,message:"Not authorized"})
     }
@@ -63,22 +57,14 @@ const commentUpdate = async (req,res,next) =>{
     
     try{
     //console.log("this is comment updater")
-    if(!req.body.commentId){
-        return res.status(400).send({success:false,message:"Request body Invalid"})
-    }
+  
     const value = req.body.comment
-    if(value == "" || value > 300){
-        return res.status(413).send({success:false,message:"comment can't be lesser than 1 words and greater than 300 words"})
-    }
+   
     const comment =await commentSchema.findOne({_id:req.body.commentId})
 
     
     
-    if(comment ===null){
-        return res.status(404).send({success:false,message:"comment not found"})
-
-
-    }
+   
     if(comment.madeBy != req.body.user.name){
         return res.status(403).send({success:false,message:"Not authorized"})
     }
