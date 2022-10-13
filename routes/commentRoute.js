@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router()
+const commentRouter = express.Router()
 const {register,login, logout} = require('../controllers/user-controller')
 const {post, postDelete , postUpdate ,getPosts, getSinglePost} = require('../controllers/post-controller')
 const {comment,commentsDelete ,commentDelete , commentUpdate ,comments } = require('../controllers/comment-controller.js')
@@ -15,20 +15,23 @@ const {commentValidate , commentUpdateValidate, commentDeleteValidate} = require
 
 const {followDetailsValidator} = require('../validationLayer/followDetailsValidator')
 
-const postRouter = require('./postRoute')
-const commentRouter = require('./commentRoute')
-const likeRouter = require('./commentRoute')
-const followRouter = require('./likeRoute')
-const userRouter = require('./userRoute')
-const adminRouter = require('./adminRoute')
 
-router.post('/token',createNewToken)
 
-router.use('/post',postRouter)
-router.use('/admin',adminRouter)
-router.use('/comment',commentRouter)
-router.use('/follow',followRouter)
-router.use('/user',userRouter)
-router.use('/like',likeRouter)
+//Start of comment section
+//fetches comments linked with a blog
+commentRouter.post('/comments',comments)
 
-module.exports = router
+//To post a comment
+commentRouter.post('/comment',commentValidate,authenticateToken,comment)
+
+//TO delete a comment
+commentRouter.delete('/comment',commentDeleteValidate,authenticateToken,commentLikesDelete,commentDelete)
+//Delete commentDelete commentLikesDelete
+
+
+//To update comment
+commentRouter.put('/comment',commentUpdateValidate,authenticateToken,commentUpdate)
+//End of comment section
+
+
+module.exports = commentRouter

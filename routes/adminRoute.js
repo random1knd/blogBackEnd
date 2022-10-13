@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router()
+const adminRouter = express.Router()
 const {register,login, logout} = require('../controllers/user-controller')
 const {post, postDelete , postUpdate ,getPosts, getSinglePost} = require('../controllers/post-controller')
 const {comment,commentsDelete ,commentDelete , commentUpdate ,comments } = require('../controllers/comment-controller.js')
@@ -15,20 +15,12 @@ const {commentValidate , commentUpdateValidate, commentDeleteValidate} = require
 
 const {followDetailsValidator} = require('../validationLayer/followDetailsValidator')
 
-const postRouter = require('./postRoute')
-const commentRouter = require('./commentRoute')
-const likeRouter = require('./commentRoute')
-const followRouter = require('./likeRoute')
-const userRouter = require('./userRoute')
-const adminRouter = require('./adminRoute')
 
-router.post('/token',createNewToken)
 
-router.use('/post',postRouter)
-router.use('/admin',adminRouter)
-router.use('/comment',commentRouter)
-router.use('/follow',followRouter)
-router.use('/user',userRouter)
-router.use('/like',likeRouter)
+adminRouter.post('/adminPosts',authenticateToken,getPostsAdmin)
+//To APPROVE the post
+adminRouter.post('/approve',authenticateToken,approve)
+//To DELETE a post , delete comments and likes as middleware
 
-module.exports = router
+
+module.exports = adminRouter

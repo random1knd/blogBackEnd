@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router()
+const postRouter = express.Router()
 const {register,login, logout} = require('../controllers/user-controller')
 const {post, postDelete , postUpdate ,getPosts, getSinglePost} = require('../controllers/post-controller')
 const {comment,commentsDelete ,commentDelete , commentUpdate ,comments } = require('../controllers/comment-controller.js')
@@ -15,20 +15,24 @@ const {commentValidate , commentUpdateValidate, commentDeleteValidate} = require
 
 const {followDetailsValidator} = require('../validationLayer/followDetailsValidator')
 
-const postRouter = require('./postRoute')
-const commentRouter = require('./commentRoute')
-const likeRouter = require('./commentRoute')
-const followRouter = require('./likeRoute')
-const userRouter = require('./userRoute')
-const adminRouter = require('./adminRoute')
 
-router.post('/token',createNewToken)
 
-router.use('/post',postRouter)
-router.use('/admin',adminRouter)
-router.use('/comment',commentRouter)
-router.use('/follow',followRouter)
-router.use('/user',userRouter)
-router.use('/like',likeRouter)
 
-module.exports = router
+//Start of post section
+//To POST a post
+postRouter.post('/post',postValidate,authenticateToken,post,notification)
+//Fetch posts for admin which are pending
+
+postRouter.delete('/post',postDeleteValidate,authenticateToken,likesDelete,commentsDelete,postDelete)
+//Delete likesDelete commentsDelete postDelete
+
+
+//To UPDATE post
+postRouter.put('/post',postUpdateValidate,authenticateToken,postUpdate)
+//To get all the posts which are approved
+postRouter.get('/post',getPosts)
+//To get single post with id 
+postRouter.get('/post/:id',authenticateToken,getSinglePost)
+//End of post section
+
+module.exports = postRouter
